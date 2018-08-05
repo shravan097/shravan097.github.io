@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<title>Shravan Dhakal</title>
+	<!-- Using Resuource from W3Schools.com-->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<style>
+	body {font-family: "Lato", sans-serif;}
+	.mySlides {display: none}
+	.gif{ 
+		background-image: url("https://media.giphy.com/media/xnscj78AnbBm/giphy.gif");
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		min-height: 100%;
+		background-attachment: fixed;
+	    background-position: center;
+	    background-repeat: no-repeat;
+
+			 }
+	</style>
+	<header>
+		<!-- Navigation Bar Updated Aug 15,2016-->
+		<div class="w3-top">
+			<ul class="w3-navbar w3-large w3-left-align w3-topnav w3-black">
+				<li class="w3-hide-medium w3-hide-large w3-opennav w3-right w3-black">
+					<a href="javascript:void(0);" onclick="myFunction()">&#x2630</a>
+				</li>
+				<li> <a class="page-scroll" href="#home"><i class="fa fa-home"></i> Home</a></li>
+				<li class="w3-hide-small"><a href="#education"><i class="fa fa-graduation-cap"></i> Education</a></li>
+				<li class="w3-hide-small"><a href="#qualification"><i class="fa fa-user"></i> Qualification</a></li>
+				<li class="w3-hide-small"><a href="#experience"><i class="fa fa-th"></i> Experience</a></li>
+				<li class="w3-hide-small"><a href="#projects">Projects</a></li>
+				<li class="w3-hide-small"><a href="mailto:contact@shravandhakal.com"><i class="fa fa-envelope"></i> Contact Me</a></li>
+			</ul>
+			<!-- SMALL SCREEN NAV BAR-->
+			<div id="demo" class="w3-hide w3-hide-large w3-hide-medium" onclick="myFunction()">
+				<ul class="w3-navbar w3-topnav w3-left-align w3-large w3-black">
+					<li class="w3-hide-small"><a href="#education"><i class="fa fa-graduation-cap"></i> Education</a></li>
+					<li><a href="#qualification"><i class="fa fa-user"></i> Qualification</a></li>
+					<li ><a href="#experience"><i class="fa fa-th"></i> Experience</a></li>
+					<li><a href="#projects">Projects</a></li>
+					<li><a href="mailto:contact@shravandhakal.com"><i class="fa fa-envelope"></i> Contact Me</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+	<body>
+		<!-- Header  Part -->
+		<div class="w3-content w3-padding-32 " id="home" style="max-width:1800px;">
+		<div class="w3-padding-128 gif w3-display-container w3-opacity-min">
+			<!-- The Band Section -->
+			<div class="w3-container w3-content w3-center w3-padding-128">
+
+				<div class="w3-card-4 w3-light-grey w3-display-middle " style="max-width:400px; ">
+
+			<header class="w3-container w3-black">
+			  <h3 class="w3-wide">SHRAVAN DHAKAL</h3>
+			</header>
+
+			
+			  <img src="img1.jpg" class="w3-round" style="width:100%;">
+			  <p>Aspiring Computer Scientist</p>
+			
+			<a style="text-decoration: none;" href="http://linkedin.com/in/shravan-dhakal-822029158/"><span class="w3-button w3-block w3-dark-grey">+ Connect</span></a>
+
+			</div>
+  
+			</div>
+
+				<!-- <h2 class="w3-wide w3-margin w3-display-top  w3-border-white w3-text-white w3-bottombar w3-leftbar w3-rightbar w3-text-black" >
+					<img src="img1.jpg" class="w3-round" style="width:40% ;height:40%"">
+					<br>
+					<b>SHRAVAN<br> DHAKAL</b></h2> -->
+				<p class="w3-justify"> </p>
+			</div>
+			</div>
+			<!--- Personal Description Part With Resume-->
+			<div class="w3-padding-64">
+				<div class="w3-content" style="max-width:1800px;margin-top:46px">
+					<h3 class="w3-center"><icon class="fa fa-leaf"></icon>  <font style="text-decoration: underline;">ABOUT ME</font></h3>
+					<div class="w3-container w3-content w3-center w3-padding" style="max-width:800px">
+						<p class="w3-justify"> <icon class="fa fa-quote-left"></icon> I am a Computer Science and an Applied Mathematics student at City College of New York.  I am always learning in life whether it is coding,mathematics or arts. My current interests lie in Data Science.  Besides academic, I love music,photography and soccer. Hope you have a lovely day and thank you very much for reading. <icon class="fa fa-quote-right"></icon>  </p>
+					</div>
+				</div>
+			</div>
+			
+			<!-- EDUCATION TAB-->
+			<section class ="w3-black" id="education">
+				<div class="w3-container w3-content w3-center w3-padding-128" style="max-width:800px">
+					<h3 class="w3-left-align" style="font-size:2em"> Education</h3>
+					<p class="w3-justify">
+						<ul class="w3-left-align">
+							<li class="w3-large"> City College of New York </li>
+							<p class="w3-medium"> Bachelors of Science | Expected Graduation: May 2019</p>
+							<div class="w3-accordion w3-container ">
+								<button onclick="courseDropDown()" class="w3-btn w3-white">Course Completed</button>
+								<div class="w3-accordion-content w3-center" id="course">
+									<table class="w3-table w3-white w3-striped">
+										<tr>
+
+											<td>CS 599: Machine Learning</td>
+											<td>CS 332: Software Engineering </td>
+											<td>CSC 220: Algorithms</td>
+
+										</tr>
+								
+										<tr>
+											<td>CSC 212: Data Structures</td>
+											<td>CSC 113: Python Programming</td>
+											<td>CSC 332: Opearting Systems</td>
+
+										</tr>
+										
+										<tr>
+											<td>CSC 336: Databases</td> 
+											<td>MATH 375: Intro. to Probability Theory</td>
+											<td>MATH 365: Combinatorics and Graph Theory</td>
+
+										</tr>
+										
+										<tr>
+											<td>CSC 221: Software Design Lab</td> 
+											<td>CSC 301: Theoretical Computer Science</td>
+
+										</tr>
+									</table>
+								</div>
+							</div>
+							<li class="w3-large"> Aviation High School</li>
+							<p class="w3-medium"> Advance Regents Diploma and CTE Endorsement: June 2015</p>
+						</ul>
+					</p>
+				</div>
+			</section>
+			
+			<!-- Qualification TAB-->
+			<section id="qualification">
+				<div class="w3-white w3-padding-64">
+					<div class="w3-content" style="max-width:1800px;margin-top:46px">
+						<div class="w3-container w3-content w3-padding-128" style="max-width:800px">
+							<h4 class="w3-left-aligned" style="font-size:2em"> Qualification</h4>
+							<p>
+								<button onclick="qualificationDropDown()" class="w3-btn w3-black" >Programming Languages</button>
+								<div class="w3-progress-container w3-accordion-content w3-show  " id="languages">
+									<div class="w3-progress-container w3-round">
+										<div class="w3-progressbar w3-green" style="width:75%"><div class="w3-center">C++</div></div>
+									</div><br>
+									<div class="w3-progress-container">
+										<div class="w3-progressbar w3-grey" style="width:75% "><div class="w3-center">Java</div></div>
+									</div><br>
+									<div class="w3-progress-container">
+										<div class="w3-progressbar w3-red" style="width:75%"><div class="w3-center">JavaScript</div></div>
+									</div><br>
+									<div class="w3-progress-container">
+										<div class="w3-progressbar w3-blue" style="width:85%; "><div class="w3-center">Python</div></div>
+									</div><br>
+									<div class="w3-progress-container">
+										<div class="w3-progressbar w3-purple" style="width:75%; "><div class="w3-center">C# .NET</div></div>
+									</div><br>
+									*Bar represents comfortness level on each language.
+								</div>
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Experience TAB-->
+			<section id="experience" class="w3-black">
+				<div class="w3-container w3-content w3-padding-128" style="max-width:800px">
+					<h3 class="w3-left-aligned" style="font-size:2em"> Experience</h3>
+						<ul class="w3-left-align">
+
+							<li class="w3-large"> Machine Learning Modeling in Python </li>
+								<p class="w3-medium"> Performed machine learning and statistical analysis on Python using Scikit Learn and Keras. Worked with models such as Logistic Regression, Support Vector Machine, Linear Regression with regularization, PCA, Decision Trees, KNN and Neural Networks.
+
+							<li class="w3-large"> C# .NET Application </li>
+								<p class="w3-medium"> Worked on a distributed application as an Backend Engineering Intern on Summer 2018. Wrote Multithreaded and Parallel program using C# .NET libraries.</p>
+
+							<li class="w3-large"> C++ and Java Applications </li>
+								<p class="w3-medium"> Wrote numerous console based applications and algorithms in C++. Built Java GUI applications using Java Swing. Worked with databases using Java's JDBC. I also built an Android App.</p>
+							<li class="w3-large"> Web Application Using Python and JavaScript </li>
+								<p class="w3-medium"> Built Web Based Application such as a cloud storage server and blog/diary using Python's Web Framework, Django. Worked with Node.js to build RESTful API and React.js to build a frontend that connects to that API.</p>
+							<li class="w3-large"> MongoDB  </li>
+								<p class="w3-medium"> Completed MongoDB University 101P course, certificate <a href="Certificate.pdf">here</a>.
+								Built a Blog for assignment using MVC model using Flask,MongoDB,HTML and CSS. </p>
+							<li class="w3-large"> System Administrator's Assitant  </li>
+								<p class="w3-medium"> Built Linux based web server for Computer Resource Centers.</p>
+						</ul>
+				</div>
+			</section>
+			<!-- Projects TAB-->
+			<section id="projects">
+				<div class="w3-container w3-content w3-padding-128" style="max-width:800px">
+					<h3 class="w3-left-aligned" style="font-size:2em"> Projects</h3>
+
+					<p class="w3-right-aligned"> <a href="https://github.com/shravan097"><i class="fa fa-github w3-hover-text-blue" style="font-size:36px"></i>Find me on GitHub </a>
+					
+
+				</div>
+			</section>
+			<footer class="w3-black">
+				<p class="w3-center">   &#169 2018 SHRAVANDHAKAL.COM ALL RIGHTS RESERVED.
+				</p>
+			</footer>
+		</div>
+		<script src="myweb.js">
+		</script>
+	</body>
+</html>
