@@ -4,12 +4,8 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+Hello! Welcome to my blog site. I will be blogging about technical/non-technical things. 
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
-
-### Contact me
-
-[email@domain.com](mailto:email@domain.com)
+I am an average software engineer trying to share ideas in a short blog posts. I will be posting blogs related to software engineering and math. :)
