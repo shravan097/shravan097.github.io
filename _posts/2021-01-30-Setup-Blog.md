@@ -1,19 +1,19 @@
 ---
 layout: post
-title: How to setup blog on github with custom start/index page!
+title: Setting up blog on github with custom start/index page... 📝 
 ---
 
-## Step 1: Setup your github website
+### *Step 1: Setup your github website*
 
 [Here](https://pages.github.com/) is an official instruction on how to setup github site. 
 
-## Step 2: Setup blog
+### *Step 2: Setup blog*
 
 1. Clone https://github.com/barryclark/jekyll-now 
 2. Edit `_config.yaml` and `about.md` file and fill in the necessary informations.
 3. Rename the blog's `index.html` to `blog.html`.
 
-## Step 3: Integrate your homepage and blog
+### *Step 3: Integrate your homepage and blog*
 
 1. Go to your github site directory.
 2. Copy your blog directory files to your github site directory
