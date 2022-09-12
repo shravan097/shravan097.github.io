@@ -9,6 +9,4 @@ jobs:
       - uses: actions/checkout@v1
       - uses: enriikke/gatsby-gh-pages-action@v2
         with:
-          access-token: ${{ secrets.GITHUB_TOKEN }}
-          git-config-name: shravan097
-          git-config-email: 'sadijdhakal@gmail.com'
+          access-token: x-access-token:${{ secrets.GITHUB_TOKEN }}
