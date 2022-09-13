@@ -7,7 +7,6 @@ import { Hamburger } from "../Icons/hamburger"
 export const Navbar = () => {
   const [open, setOpen] = React.useState(false)
   const location = useLocation()
-  JSON.stringify(location)
   return (
     <>
     <base href="https://www.shravan097.github.io" />
