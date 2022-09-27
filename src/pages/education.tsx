@@ -2,15 +2,16 @@ import { HeadFC } from "gatsby"
 import { Navbar } from "../components/Navbar/navbar"
 import { Education } from "../components/Pages/education"
 import * as React from "react"
+import { childContainer, parentContainer } from "../styles/shared"
 
 export const EducationPage = () =>  {
   return (
-    <>
+    <div className={parentContainer}>
       <Navbar/>
-      <div className="pt-16 sm:pl-64 flex flex-col overflow-auto bg-stone-200 justify-center items-center h-screen">
-        <Education/>
+      <div className={childContainer}>
+       <Education/>
       </div>
-    </>
+    </div>
   )
 }
 
