@@ -23,7 +23,6 @@ export const IntroPage = () =>  {
 const Name = (props: {firstName: string, lastName: string}) => {
   return (
     <div className= "my-4 flex flex-col justify-center items-center w-full">
-      
       <p className="font-mono text-7xl font-extrabold uppercase"> <Typewriter cursor={true} loop={true} words={[props.firstName]} /> </p>
       <p className="font-mono text-7xl font-extrabold uppercase"> {props.lastName} </p>
     </div>

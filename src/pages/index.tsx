@@ -9,11 +9,11 @@ import { childContainer, parentContainer } from "../styles/shared"
 // todo - add meta tags for SEO 
 const IndexPage = () => {
   return (
-    <div className={parentContainer}>
+    <div className={`${parentContainer}`}>
       {/* todo - fix having to duplicate nav bar on every page.
       is there a way to just write this once for other sub pages ?  */}
       <Navbar/>
-      <div className={childContainer}>
+      <div className={`${childContainer}`}>
         <IntroPage/>
       </div>
     </div>

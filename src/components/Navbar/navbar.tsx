@@ -25,7 +25,7 @@ export const Navbar = () => {
         {/* todo - simply this open &&  */}
         {open && <Link to={`/`} className="mx-4 my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Intro </Link>}
         {open && <Link to={`/education/`} className="mx-4 my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4" replace> Education </Link>}
-        {open && <Link to={`/inprogress/`} className="mx-4 my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Experience </Link>}
+        {open && <Link to={`/experience/`} className="mx-4 my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Experience </Link>}
         {open && <Link to={`/inprogress/`} className="mx-4  my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Blog </Link>}
       </nav>
     </>
