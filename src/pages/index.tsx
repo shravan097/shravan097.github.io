@@ -5,7 +5,7 @@ import { Navbar } from "../components/Navbar/navbar"
 import { childContainer, parentContainer } from "../styles/shared"
 import { Education } from "../components/Pages/education"
 import { Experience } from "../components/Pages/experience"
-import { InConstruction } from "../components/Pages/Inconstruction"
+import { InConstruction } from "../components/Pages/inconstruction"
 import "./index.css"
 
 
