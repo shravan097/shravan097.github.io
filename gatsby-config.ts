@@ -12,10 +12,7 @@ const config: GatsbyConfig = {
   plugins: ['gatsby-plugin-postcss', {
     resolve: 'gatsby-plugin-google-gtag',
     options: {
-      "trackingId": ["G-JZY81GW26R"],
-      "pluginConfig": {
-        head: true
-      },
+      trackingIds: ["G-JZY81GW26R"]
     }
   }, "gatsby-plugin-sitemap", "gatsby-plugin-mdx", {
     resolve: 'gatsby-source-filesystem',
