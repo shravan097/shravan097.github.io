@@ -2,10 +2,9 @@ import * as React from "react"
 import { SocialLogos } from "./socialLogos"
 import { Typewriter } from 'react-simple-typewriter'
 
-export const IntroPage = () =>  {
+export const IntroPage = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) =>  {
   return (
-    <>
-    <div className="flex flex-col justify-center w-full items-center">
+    <div ref={ref} className="snap-start flex flex-col justify-center h-full w-full items-center">
       <div className="max-w-xs w-6/12 sm:w-4/12">
         <img src="https://avatars.githubusercontent.com/u/23582455?v=4" alt="profile picture" className="shadow rounded-full max-w-full h-auto align-middle" />
       </div>
@@ -14,10 +13,8 @@ export const IntroPage = () =>  {
       <JobTitle title='Software Engineer' />
       <SocialLogos />
     </div>
-    
-    </>
   )
-}
+})
 
 
 const Name = (props: {firstName: string, lastName: string}) => {

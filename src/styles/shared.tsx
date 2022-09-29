@@ -1,2 +1,2 @@
-export const childContainer = "flex flex-grow flex-col bg-stone-200 justify-center items-center h-screen overflow-hidden"
+export const childContainer = " bg-stone-200 justify-center items-center h-screen w-screen scroll-smooth overflow-y-scroll snap-mandatory snap-y"
 export const parentContainer = "flex flex-col sm:flex-row"
