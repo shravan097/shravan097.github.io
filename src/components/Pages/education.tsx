@@ -3,7 +3,7 @@ import { SocialLogos } from "./socialLogos"
 
 export const Education = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) =>  {
   return (
-    <div ref={ref} className="snap-start flex h-full w-full justify-center items-center">
+    <div ref={ref} className="snap-end flex h-full w-full justify-center items-center">
       <div className="flex flex-col justify-center">
         <div className="flex flex-row content-center">
           <a className='content-center w-full' href="https://www.ccny.cuny.edu/">

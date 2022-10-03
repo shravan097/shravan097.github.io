@@ -6,10 +6,8 @@ import { childContainer, parentContainer } from "../styles/shared"
 import { Education } from "../components/Pages/education"
 import { Experience } from "../components/Pages/experience"
 import { InConstruction } from "../components/Pages/inconstruction"
-import "./index.css"
 
-
-// todo - add meta tags for SEO 
+ 
 const IndexPage = () => {
   const educationRef = React.useRef<HTMLDivElement>(null)
   const introRef = React.useRef<HTMLDivElement>(null)
@@ -39,4 +37,4 @@ const IndexPage = () => {
 
 export default IndexPage
 
-export const Head: HeadFC = () => <title>Home Page</title>
+export const Head: HeadFC = () => <title>Shravan Portfolio</title>
