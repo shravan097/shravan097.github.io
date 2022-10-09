@@ -2,6 +2,7 @@
 slug: "/blog/google-home-church-bell"
 date: "2022-09-16"
 title: Make Google Home Ring Church Bells Every Hour
+tags: ['IoT', 'Google Home']
 ---
 
 ## Background

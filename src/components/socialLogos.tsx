@@ -1,6 +1,6 @@
 import * as React from "react"
-import { Github } from "../Icons/github"
-import { Linkedin } from "../Icons/linkedin"
+import { Github } from "./Icons/github"
+import { Linkedin } from "./Icons/linkedin"
 export const SocialLogos = () => {
   return(
     <div className= "container flex flex-row pt-4 justify-center">

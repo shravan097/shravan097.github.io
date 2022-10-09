@@ -2,6 +2,7 @@
 slug: "/blog/my-first-post"
 date: "2021-01-30"
 title: "My first blog post"
+tags: ['HTML', 'Github', 'Jekyll']
 ---
 
 ### *Step 1: Setup your github website*

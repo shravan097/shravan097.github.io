@@ -4,14 +4,15 @@ import ReactMarkdown from "react-markdown"
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {oneDark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 import "./md.css"
-import { SocialLogos } from "../components/Pages/socialLogos"
+import { SocialLogos } from "../components/socialLogos"
 import { LeftArrow } from "../components/Icons/leftArrow"
+import { Tags } from "../components/tags"
 
 // @ts-ignore
 export default function Template({data}) {
   const { markdownRemark } = data
   const { frontmatter, rawMarkdownBody } = markdownRemark
-  
+  console.log({frontmatter})
   return (
     <>
       <div className="flex flex-col justify-evenly">
@@ -27,6 +28,7 @@ export default function Template({data}) {
             </div>
             <p className="text-4xl">{frontmatter.title.toUpperCase()}</p>
             <i className="text-xl self-left">{frontmatter.date}</i>
+            <Tags tags={frontmatter?.tags} />
             <SocialLogos />
           </div>
           
@@ -69,6 +71,7 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")
         slug
         title
+        tags
       }
     }
   }

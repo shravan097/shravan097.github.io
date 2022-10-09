@@ -1,5 +1,5 @@
 import * as React from "react"
-import { SocialLogos } from "./socialLogos"
+import { SocialLogos } from "../socialLogos"
 import { Typewriter } from 'react-simple-typewriter'
 
 export const IntroPage = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) =>  {

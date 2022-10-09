@@ -1,6 +1,7 @@
 import { graphql, Link, useStaticQuery } from "gatsby"
 import * as React from "react"
-import { SocialLogos } from "./socialLogos"
+import { SocialLogos } from "../socialLogos"
+import { Tags } from "../tags"
 // import  "../../gatsby-types"
 
 const Blog = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) =>  {
@@ -15,6 +16,7 @@ const Blog = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) => 
               date
               slug
               title
+              tags
             }
           }
         }
@@ -30,12 +32,13 @@ const Blog = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) => 
             <div className="my-4">
               <div className="h-64 overflow-y-auto">
                 {
-                  data?.allMarkdownRemark?.edges?.map((item: { node: { frontmatter: { date: any; slug: any; title: any } } }) => {
-                    const {date, slug, title} = item.node.frontmatter
+                  data?.allMarkdownRemark?.edges?.map((item: { node: { frontmatter: { date: any; slug: any; title: any, tags: any } } }) => {
+                    const {date, slug, title, tags} = item.node.frontmatter
                     return (
                       <div className="my-4">
                         <Link to={slug}><p className="hover:underline text-2xl">{title}</p></Link>
                         <i className="text-base">Published At {date}</i>
+                        <Tags tags={tags} />
                         <div className="border-b-2 mt-2 border-zinc-300"></div>
                       </div>
                     )

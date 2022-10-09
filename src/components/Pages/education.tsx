@@ -1,5 +1,5 @@
 import * as React from "react"
-import { SocialLogos } from "./socialLogos"
+import { SocialLogos } from "../socialLogos"
 
 export const Education = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) =>  {
   return (

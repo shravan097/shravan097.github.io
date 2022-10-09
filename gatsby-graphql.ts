@@ -414,6 +414,7 @@ export type MarkdownRemarkFrontmatter = {
   title?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['Date']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 
@@ -752,6 +753,7 @@ export type MarkdownRemarkFrontmatterFilterInput = {
   title?: InputMaybe<StringQueryOperatorInput>;
   slug?: InputMaybe<StringQueryOperatorInput>;
   date?: InputMaybe<DateQueryOperatorInput>;
+  tags?: InputMaybe<StringQueryOperatorInput>;
 };
 
 export type JsonQueryOperatorInput = {
@@ -904,6 +906,7 @@ export type FileFieldsEnum =
   | 'childrenMarkdownRemark___frontmatter___title'
   | 'childrenMarkdownRemark___frontmatter___slug'
   | 'childrenMarkdownRemark___frontmatter___date'
+  | 'childrenMarkdownRemark___frontmatter___tags'
   | 'childrenMarkdownRemark___excerpt'
   | 'childrenMarkdownRemark___rawMarkdownBody'
   | 'childrenMarkdownRemark___fileAbsolutePath'
@@ -964,6 +967,7 @@ export type FileFieldsEnum =
   | 'childMarkdownRemark___frontmatter___title'
   | 'childMarkdownRemark___frontmatter___slug'
   | 'childMarkdownRemark___frontmatter___date'
+  | 'childMarkdownRemark___frontmatter___tags'
   | 'childMarkdownRemark___excerpt'
   | 'childMarkdownRemark___rawMarkdownBody'
   | 'childMarkdownRemark___fileAbsolutePath'
@@ -2604,6 +2608,7 @@ export type MarkdownRemarkFieldsEnum =
   | 'frontmatter___title'
   | 'frontmatter___slug'
   | 'frontmatter___date'
+  | 'frontmatter___tags'
   | 'excerpt'
   | 'rawMarkdownBody'
   | 'fileAbsolutePath'
@@ -2762,11 +2767,11 @@ export type MarkdownRemarkSortInput = {
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_1_Query = { allMarkdownRemark: { edges: Array<{ node: { id: string, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null } | null } }> } };
+export type Unnamed_1_Query = { allMarkdownRemark: { edges: Array<{ node: { id: string, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } }> } };
 
 export type Unnamed_2_QueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type Unnamed_2_Query = { markdownRemark?: { rawMarkdownBody?: string | null, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null } | null } | null };
+export type Unnamed_2_Query = { markdownRemark?: { rawMarkdownBody?: string | null, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } | null };
