@@ -5,16 +5,15 @@ import { Navbar } from "../components/Navbar/navbar"
 import { childContainer, parentContainer } from "../styles/shared"
 import { Education } from "../components/Pages/education"
 import { Experience } from "../components/Pages/experience"
-import { InConstruction } from "../components/Pages/inconstruction"
-import "./index.css"
+import Blog from "../components/Pages/blog"
 
-
-// todo - add meta tags for SEO 
+ 
 const IndexPage = () => {
   const educationRef = React.useRef<HTMLDivElement>(null)
   const introRef = React.useRef<HTMLDivElement>(null)
   const experienceRef = React.useRef<HTMLDivElement>(null)
   const inconstructionRef = React.useRef<HTMLDivElement>(null)
+  
   const scrollTo = {
     education: (): void => educationRef.current?.scrollIntoView(),
     intro: (): void => introRef.current?.scrollIntoView(),
@@ -30,7 +29,7 @@ const IndexPage = () => {
         <IntroPage ref={introRef}/>
         <Education ref={educationRef}/>
         <Experience ref={experienceRef}/>
-        <InConstruction ref={inconstructionRef}/>
+        <Blog ref={inconstructionRef} />
       </div>
     </div>
       
@@ -39,4 +38,4 @@ const IndexPage = () => {
 
 export default IndexPage
 
-export const Head: HeadFC = () => <title>Home Page</title>
+export const Head: HeadFC = () => <title>Shravan Portfolio</title>

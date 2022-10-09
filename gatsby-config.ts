@@ -14,14 +14,22 @@ const config: GatsbyConfig = {
     options: {
       trackingIds: ["G-JZY81GW26R"]
     }
-  }, "gatsby-plugin-sitemap", "gatsby-plugin-mdx", {
+  }, "gatsby-plugin-sitemap", {
     resolve: 'gatsby-source-filesystem',
     options: {
       "name": "pages",
-      "path": "./src/pages/"
+      "path": `${__dirname}/src/pages/`
     },
     __key: "pages"
   },
+  {
+    resolve: `gatsby-source-filesystem`,
+    options: {
+      name: `posts`,
+      path: `${__dirname}/src/posts/`,
+    },
+  },
+  `gatsby-transformer-remark`,
   ]
 };
 
