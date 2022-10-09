@@ -4,7 +4,7 @@ import { SocialLogos } from "./socialLogos"
 export const Experience = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) =>  {
   // TODO - REPLACE LOGO HERE
   return (
-    <div ref={ref} className="snap-end flex h-full w-full justify-center items-center">
+    <div ref={ref} className="flex h-full w-full justify-center items-center">
       <div className="mx-4 flex flex-col">
         <div>
           <h1 className="font-mono text-2xl">Backend Development</h1>
