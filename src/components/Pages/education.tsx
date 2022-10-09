@@ -3,9 +3,9 @@ import { SocialLogos } from "./socialLogos"
 
 export const Education = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) =>  {
   return (
-    <div ref={ref} className="flex h-full w-full justify-center items-center">
+    <div ref={ref} className="flex h-full w-full justify-center items-center content-center">
       <div className="flex flex-col justify-center">
-        <div className="flex flex-row content-center">
+        <div className="flex flex-row content-center self-center mx-6">
           <a className='content-center w-full' href="https://www.ccny.cuny.edu/">
             <img className='h-auto w-full rounded-sm' alt='ccny logo' src='https://upload.wikimedia.org/wikipedia/commons/2/25/CCNY_logo_flush_left.svg' />
           </a>

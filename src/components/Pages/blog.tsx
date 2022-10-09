@@ -1,19 +1,47 @@
-import { graphql, Link } from "gatsby"
+import { graphql, Link, useStaticQuery } from "gatsby"
 import * as React from "react"
 import { SocialLogos } from "./socialLogos"
+// import  "../../gatsby-types"
 
-const Blog = React.forwardRef((props, ref: React.LegacyRef<HTMLDivElement>) =>  {
-  // @ts-ignore TODO - REPLACE LOGO HERE 
-  // const { markdownRemark } = props.data
-  console.log(props.data)
+const Blog = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) =>  {
+
+  const allMarkdownQuery = graphql`
+    {
+      allMarkdownRemark(sort: {fields: frontmatter___date, order: DESC}) {
+        edges {
+          node {
+            id
+            frontmatter {
+              date
+              slug
+              title
+            }
+          }
+        }
+      }
+    }
+  `
+  const data = useStaticQuery(allMarkdownQuery)
   return (
-    <div ref={ref} className="flex h-full w-full justify-center items-center overflow-scroll">
+    <div id="blog" ref={ref} className="flex h-full w-full justify-center items-center">
       <div className="mx-4 my-4 flex flex-col content-center">
         <div className="flex justify-center text-center content-center flex-col">
             <p className="text-5xl"> Recent Blog Posts </p>
-            <div className="overscroll-y">
-              <Link to={'/blog/yam-to-dict'}><p className="hover:underline m-5 text-xl"> YAML to Dict </p></Link>
-              <Link to={'/blog/google-home-church-bell'}><p className="hover:underline m-5 text-xl">Make Google Home Ring Church Bells Every Hour</p></Link>
+            <div className="my-4">
+              <div className="h-64 overflow-y-auto">
+                {
+                  data?.allMarkdownRemark?.edges?.map((item: { node: { frontmatter: { date: any; slug: any; title: any } } }) => {
+                    const {date, slug, title} = item.node.frontmatter
+                    return (
+                      <div className="my-4">
+                        <Link to={slug}><p className="hover:underline text-2xl">{title}</p></Link>
+                        <i className="text-base">Published At {date}</i>
+                        <div className="border-b-2 mt-2 border-zinc-300"></div>
+                      </div>
+                    )
+                    })
+                }
+              </div>
             </div>
         </div>
         <SocialLogos/>
@@ -22,18 +50,4 @@ const Blog = React.forwardRef((props, ref: React.LegacyRef<HTMLDivElement>) =>  
   )
 })
 
-// export const pageQuery = graphql`
-//   query() {
-//     file {
-//       id
-//     }
-//     allFile(filter: {ext: {eq: ".md"}}) {
-//       edges {
-//         node {
-//           name
-//         }
-//       }
-//     }
-//   }
-// `
 export default Blog

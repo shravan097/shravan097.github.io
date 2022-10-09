@@ -30,7 +30,15 @@ const config: GatsbyConfig = {
     },
   },
   `gatsby-transformer-remark`,
-  ]
+  {
+    resolve: `gatsby-plugin-graphql-codegen`,
+    options: {
+      fileName: `./gatsby-graphql.ts`,
+      documentPaths: [
+        './src/**/*.{ts,tsx}',
+      ],
+    }
+  }]
 };
 
 export default config;
