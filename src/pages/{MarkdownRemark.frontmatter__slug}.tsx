@@ -5,7 +5,7 @@ import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {oneDark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 import "./md.css"
 import { SocialLogos } from "../components/Pages/socialLogos"
-import { Home } from "../components/Icons/home"
+import { LeftArrow } from "../components/Icons/leftArrow"
 
 // @ts-ignore
 export default function Template({data}) {
@@ -15,9 +15,16 @@ export default function Template({data}) {
   return (
     <>
       <div className="flex flex-col justify-evenly">
-        <div className="py-4 h-auto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-mono flex flex-row shadow-lg flex-auto">
-          <div className="mx-4 self-center w-1/8"><Link to="/#blog" ><Home/></Link></div>
-          <div className="mx-4 w-full flex flex-col items-center text-center">
+        <div className="py-4 h-auto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-mono flex flex-col shadow-lg flex-auto">
+          <div className="w-full flex flex-col items-center text-center">
+            <div className="my-2 animate-bounce">
+              <Link to="/#blog" >
+                <div className="flex flex-row hover:text-black">
+                  <LeftArrow/>
+                  <i className="mx-2">go back</i>
+                </div>
+              </Link>
+            </div>
             <p className="text-4xl">{frontmatter.title.toUpperCase()}</p>
             <i className="text-xl self-left">{frontmatter.date}</i>
             <SocialLogos />
