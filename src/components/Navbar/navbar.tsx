@@ -13,7 +13,7 @@ export const Navbar = (props: NavbarProps) => {
             <div onClick={props.scrollTo.intro} className="my-2 mx-16 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Intro </div>
             <div onClick={props.scrollTo.education} className="my-2 mx-16 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Education </div>
             <div onClick={props.scrollTo.experience} className="my-2 mx-16 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Experience </div>
-            <div onClick={props.scrollTo.inconstruction} className="my-2 mx-16 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Blog </div>
+            <div onClick={props.scrollTo.blogRef} className="my-2 mx-16 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Blog </div>
           </div>
       </nav>
 
@@ -26,7 +26,7 @@ export const Navbar = (props: NavbarProps) => {
         {open && <div onClick={props.scrollTo.intro} className="mx-4 my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Intro </div>}
         {open && <div onClick={props.scrollTo.education} className="mx-4 my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Education </div>}
         {open && <div onClick={props.scrollTo.experience} className="mx-4 my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Experience </div>}
-        {open && <div onClick={props.scrollTo.inconstruction} className="mx-4  my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Blog </div>}
+        {open && <div onClick={props.scrollTo.blogRef} className="mx-4  my-2 font-bold text-2xl text-slate-200 hover:underline decoration-gray-500 decoration-4"> Blog </div>}
       </nav>
     </>
   )
@@ -37,6 +37,6 @@ type NavbarProps = {
     education: () => void
     intro: () => void
     experience: () => void,
-    inconstruction: () => void
+    blogRef: () => void
   }
 }

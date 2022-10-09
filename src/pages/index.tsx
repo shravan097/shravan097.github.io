@@ -12,13 +12,13 @@ const IndexPage = () => {
   const educationRef = React.useRef<HTMLDivElement>(null)
   const introRef = React.useRef<HTMLDivElement>(null)
   const experienceRef = React.useRef<HTMLDivElement>(null)
-  const inconstructionRef = React.useRef<HTMLDivElement>(null)
+  const blogRef =  React.useRef<HTMLDivElement>(null)
   
   const scrollTo = {
     education: (): void => educationRef.current?.scrollIntoView(),
     intro: (): void => introRef.current?.scrollIntoView(),
     experience: (): void => experienceRef.current?.scrollIntoView(),
-    inconstruction: (): void => inconstructionRef.current?.scrollIntoView(),
+    blogRef: (): void => blogRef.current?.scrollIntoView(),
   }
   return (
     <div className={`${parentContainer}`}>
@@ -29,7 +29,7 @@ const IndexPage = () => {
         <IntroPage ref={introRef}/>
         <Education ref={educationRef}/>
         <Experience ref={experienceRef}/>
-        <Blog ref={inconstructionRef} />
+        <Blog ref={blogRef} />
       </div>
     </div>
       

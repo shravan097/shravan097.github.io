@@ -1,6 +1,6 @@
 ---
 slug: "/blog/google-home-church-bell"
-date: "2019-05-04"
+date: "2022-09-16"
 title: Make Google Home Ring Church Bells Every Hour
 ---
 
