@@ -6,6 +6,7 @@ import { childContainer, parentContainer } from "../styles/shared"
 import { Education } from "../components/Pages/education"
 import { Experience } from "../components/Pages/experience"
 import Blog from "../components/Pages/blog"
+import { SEO } from "../components/seo"
 
  
 const IndexPage = () => {
@@ -38,4 +39,6 @@ const IndexPage = () => {
 
 export default IndexPage
 
-export const Head: HeadFC = () => <title>Shravan Portfolio</title>
+export const Head: HeadFC = () => (
+  <SEO />
+)

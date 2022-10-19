@@ -28,14 +28,16 @@ const Blog = React.forwardRef((_props, ref: React.LegacyRef<HTMLDivElement>) => 
     <div id="blog" ref={ref} className="flex h-full w-full justify-center items-center">
       <div className="mx-4 my-4 flex flex-col content-center">
         <div className="flex justify-center text-center content-center flex-col">
-            <p className="text-5xl"> Recent Blog Posts </p>
+            <div className="border-t-4 border-zinc-700"/>
+            <p className="text-5xl m-4">Recent Blog Posts</p>
+            <div className="border-t-4 border-zinc-700"/>
             <div className="my-4">
-              <div className="h-64 overflow-y-auto">
+              <div className="h-64 overflow-y-auto shadow-inner">
                 {
                   data?.allMarkdownRemark?.edges?.map((item: { node: { frontmatter: { date: any; slug: any; title: any, tags: any } } }) => {
                     const {date, slug, title, tags} = item.node.frontmatter
                     return (
-                      <div className="my-4">
+                      <div className="m-4">
                         <Link to={slug}><p className="hover:underline text-2xl">{title}</p></Link>
                         <i className="text-base">Published At {date}</i>
                         <Tags tags={tags} />

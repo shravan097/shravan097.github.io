@@ -273,6 +273,7 @@ export type SiteSiteMetadata = {
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   siteUrl?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type SiteFunction = Node & {
@@ -1470,6 +1471,7 @@ export type SiteSiteMetadataFilterInput = {
   title?: InputMaybe<StringQueryOperatorInput>;
   description?: InputMaybe<StringQueryOperatorInput>;
   siteUrl?: InputMaybe<StringQueryOperatorInput>;
+  image?: InputMaybe<StringQueryOperatorInput>;
 };
 
 export type SiteGraphqlTypegenFilterInput = {
@@ -1526,6 +1528,7 @@ export type SiteFieldsEnum =
   | 'siteMetadata___title'
   | 'siteMetadata___description'
   | 'siteMetadata___siteUrl'
+  | 'siteMetadata___image'
   | 'port'
   | 'host'
   | 'graphqlTypegen___typesOutputPath'
@@ -2769,9 +2772,14 @@ export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
 export type Unnamed_1_Query = { allMarkdownRemark: { edges: Array<{ node: { id: string, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } }> } };
 
-export type Unnamed_2_QueryVariables = Exact<{
+export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_2_Query = { site?: { siteMetadata?: { title?: string | null, description?: string | null, image?: string | null, siteUrl?: string | null } | null } | null };
+
+export type Unnamed_3_QueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type Unnamed_2_Query = { markdownRemark?: { rawMarkdownBody?: string | null, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type Unnamed_3_Query = { markdownRemark?: { rawMarkdownBody?: string | null, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } | null };
