@@ -18,11 +18,57 @@ The new site was fantastic. It had cool animation. It was responsive. It was all
 
 ![2022](https://drive.google.com/uc?id=1rtua1pqCFEh2WWzWfFWTP7ekXyI1MqMi) 
 # Redesign with React, Gatsby, & Tailwind
-todo
-- Meta tags & SEO
-- CMS
-- Client Side Rendering
-- Easy to maintain
-- React & Reusable component
+## Design
+I wanted my website to remain minimal so I decided to go with a simple left side nav bar and information on the right side. I tried utilizing [Figma](https://www.figma.com/) for all the mocks but after few base mocks, I felt confident on my design and did not want to spend any more time learning about Figma.Once I had a rough idea, I started my implementation. 
+
+## Implementation
+
+For this website, I wanted to focus fully on frontend and not use backend. For all content management, I wanted to save money on servers so I used file hosting services, in my case Google Drive. For blogs, I utilize markdown file that sat along side my compiled front end code.
+
+For frontend, I picked Gatsby framework along with React & Tailwind. My folder structure is similar to Gatsby starter project for Typescript. My `src` folder structure looks like this
+```
+src
+├── components
+│   ├── Icons
+│   ├── Navbar
+│   ├── Pages
+│   ├── hooks
+│   ├── seo.tsx
+│   ├── socialLogos.tsx
+│   └── tags.tsx
+├── gatsby-types.d.ts
+├── pages
+│   ├── 404.tsx
+│   ├── index.tsx
+│   ├── md.css
+│   └── {MarkdownRemark.frontmatter__slug}.tsx
+├── posts
+│   ├── 2021-01-30-Setup-Blog.md
+│   ├── 2022-04-16-YAML2Dict.md
+│   ├── 2022-09-06-Google-Home-Church-Bells.md
+│   └── 2022-10-03-Gatsby-Website-Redesign.md
+└── styles
+    ├── global.css
+    └── shared.tsx
+```
+
+I decided to break down as many component as I could so you will see Navbar, Pages, Icons etc. Within `component/Pages`, you will see the main components per page.
+```
+component/Pages
+.
+├── blog.tsx
+├── education.tsx
+├── experience.tsx
+├── inconstruction.tsx
+└── intropage.tsx
+```
+I wanted to mention that I did not test any of these component as I felt a portfolio site does not need 100% test coverage. Manual smoke tests were enough to move the code up from `dev` to `prod`. 
 
 
+### SEO
+One of the main reason for using Gatsby was to utilize SEO. All search engines utilize crawler to make your site searchable with their search engine. Adding SEO to your page was very simple using Gatsby. I simply had to use siteMetadata config, perform GraphQL to obtain the tag & attach it to the head of the page as `<meta>` tags. 
+
+
+## Final Thoughts
+
+In the end, redesigning my website has been a great experience. I got to learn 3 new tech, `Gatsby`, `Tailwind`, & `GraphQL`. I made my personal website searchable through search engine with the help of SEO `<meta>` tags. I made my personal site code more readable, maintainable & reusable in the long run. As for the future of this site, this site will probably not go through another major redesign unless there is a super fancy framework that is too good to miss out on. I will not do any more upgrade besides adding internationalization support.

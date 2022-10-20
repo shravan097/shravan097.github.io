@@ -8,7 +8,7 @@ export const SEO = (params: Partial<SEOProps>) => {
     title: params?.title || defaultTitle,
     description: params?.description || defaultDescription,
     image: `${siteUrl}${image}`,
-    url: `${siteUrl}${params?.pathname || ``}`,
+    url: `${params?.pathname || ``}`,
     twitterUsername,
   }
 
@@ -23,6 +23,7 @@ export const SEO = (params: Partial<SEOProps>) => {
       <meta name="twitter:description" content={seo.description} />
       <meta name="twitter:image" content={seo.image} />
       <meta name="twitter:creator" content={seo.twitterUsername} />
+      <meta name="google-site-verification" content="8rR2-kZ3CL9O3lx-3V9xIiZxtHn8y8ZMPd5KRisbx8s" />
       <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>👤</text></svg>" />
       {params?.children}
     </>
