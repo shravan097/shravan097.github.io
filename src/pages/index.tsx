@@ -40,5 +40,5 @@ const IndexPage = () => {
 export default IndexPage
 
 export const Head: HeadFC = () => (
-  <SEO />
+  <SEO title="Shravan" description="Shravan's Portfolio & Blog"/>
 )

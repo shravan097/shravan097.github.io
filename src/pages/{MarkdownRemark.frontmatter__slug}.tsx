@@ -1,5 +1,5 @@
 import React from "react"
-import { graphql, Link } from "gatsby"
+import { graphql, HeadFC, Link } from "gatsby"
 import ReactMarkdown from "react-markdown"
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {oneDark} from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -7,12 +7,12 @@ import "./md.css"
 import { SocialLogos } from "../components/socialLogos"
 import { LeftArrow } from "../components/Icons/leftArrow"
 import { Tags } from "../components/tags"
+import { SEO } from "../components/seo"
 
 // @ts-ignore
 export default function Template({data}) {
   const { markdownRemark } = data
   const { frontmatter, rawMarkdownBody } = markdownRemark
-  console.log({frontmatter})
   return (
     <>
       <div className="flex flex-col justify-evenly">
@@ -76,3 +76,13 @@ export const pageQuery = graphql`
     }
   }
 `
+
+export const Head: HeadFC = (props) => {
+  const { data } = props
+  // @ts-ignore
+  const metatData = data?.markdownRemark?.frontmatter
+  return (
+    // @ts-ignore
+    <SEO title = {metatData?.title} description={data?.markdownRemark?.rawMarkdownBody?.substring(0,600)}/>
+  ) 
+}
