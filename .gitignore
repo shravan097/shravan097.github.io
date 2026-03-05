@@ -3,3 +3,11 @@ node_modules/
 .cache/
 public
 src/gatsby-types.d.ts
+
+# Hermit: cache and downloaded packages (do not push)
+.hermit/
+
+# Hermit: generated bin files; only hermit.hcl and README.hermit.md are committed
+bin/*
+!bin/hermit.hcl
+!bin/README.hermit.md
