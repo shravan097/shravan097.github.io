@@ -1,0 +1,18 @@
+0 verbose cli /Users/shravan/Library/Caches/hermit/pkg/node@20/bin/node /Users/shravan/Library/Caches/hermit/pkg/node@20/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@10.8.2
+2 info using node@v20.20.0
+3 silly config load:file:/Users/shravan/Library/Caches/hermit/pkg/node@20/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/shravan/Development/shravan097.github.io/.npmrc
+5 silly config load:file:/Users/shravan/.npmrc
+6 silly config load:file:/Users/shravan/Development/shravan097.github.io/.hermit/node/etc/npmrc
+7 verbose title npm exec gatsby clean
+8 verbose argv "exec" "--" "gatsby" "clean"
+9 verbose logfile logs-max:10 dir:/Users/shravan/Development/shravan097.github.io/.hermit/node/cache/_logs/2026-03-05T01_37_55_057Z-
+10 verbose logfile /Users/shravan/Development/shravan097.github.io/.hermit/node/cache/_logs/2026-03-05T01_37_55_057Z-debug-0.log
+11 silly logfile done cleaning log files
+12 verbose cwd /Users/shravan/Development/shravan097.github.io
+13 verbose os Darwin 25.3.0
+14 verbose node v20.20.0
+15 verbose npm  v10.8.2
+16 verbose exit 0
+17 info ok

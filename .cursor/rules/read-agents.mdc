@@ -1,0 +1,16 @@
+---
+description: Use AGENTS.md for project context instead of reading the whole codebase
+alwaysApply: true
+---
+
+# Project context
+
+**Read `AGENTS.md` at the repo root** for:
+
+- What this repo is (portfolio site, Desktop OS UI)
+- Tech stack (Gatsby, TypeScript, Tailwind)
+- Directory structure and where key features live
+- Where to change: dock, windows, terminal, blog, run instructions
+- Conventions (SSR, no react-rnd, legacy vs Desktop components)
+
+Use it as the first source of context before editing or answering questions about this codebase.

@@ -2775,11 +2775,16 @@ export type Unnamed_1_Query = { allMarkdownRemark: { edges: Array<{ node: { id: 
 export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_2_Query = { site?: { siteMetadata?: { title?: string | null, description?: string | null, image?: string | null, siteUrl?: string | null } | null } | null };
+export type Unnamed_2_Query = { allMarkdownRemark: { edges: Array<{ node: { id: string, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } }> } };
 
-export type Unnamed_3_QueryVariables = Exact<{
+export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_3_Query = { site?: { siteMetadata?: { title?: string | null, description?: string | null, image?: string | null, siteUrl?: string | null } | null } | null };
+
+export type Unnamed_4_QueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type Unnamed_3_Query = { markdownRemark?: { rawMarkdownBody?: string | null, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type Unnamed_4_Query = { markdownRemark?: { rawMarkdownBody?: string | null, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } | null };

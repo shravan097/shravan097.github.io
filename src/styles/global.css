@@ -7,3 +7,14 @@
     list-style: revert;
   }
 }
+
+/* Hide scrollbar on dock for mobile while keeping scroll */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
