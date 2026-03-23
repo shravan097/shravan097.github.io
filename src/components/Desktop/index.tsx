@@ -76,18 +76,23 @@ type WindowState = {
 
 // ─── Desktop ──────────────────────────────────────────────────────────────────
 
+function initialWindowStates(): Record<string, WindowState> {
+  const base = Object.fromEntries(
+    WINDOW_DEFS.map((d, i) => [d.id, { isOpen: false, zIndex: i + 1 }])
+  ) as Record<string, WindowState>
+  // Default: Terminal + About open (About higher z-index so it appears in front)
+  base.terminal = { isOpen: true, zIndex: 11 }
+  base.about = { isOpen: true, zIndex: 12 }
+  return base
+}
+
 export const Desktop: React.FC = () => {
   const [mounted, setMounted] = React.useState(false)
-  const [maxZ, setMaxZ] = React.useState(10)
-  const [windowStates, setWindowStates] = React.useState<Record<string, WindowState>>(() =>
-    Object.fromEntries(WINDOW_DEFS.map((d, i) => [d.id, { isOpen: false, zIndex: i + 1 }]))
-  )
+  const [maxZ, setMaxZ] = React.useState(12)
+  const [windowStates, setWindowStates] = React.useState<Record<string, WindowState>>(initialWindowStates)
 
   React.useEffect(() => {
     setMounted(true)
-    // Auto-open terminal on load
-    bringOpen("terminal")
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const bringOpen = (id: string) => {
@@ -132,10 +137,10 @@ export const Desktop: React.FC = () => {
       {/* Top menu bar */}
       <Menubar onOpenWindow={bringOpen} />
 
-      {/* Desktop icons — left column, below menu bar */}
+      {/* Desktop icons — left column, clear gap below menubar (don’t touch navbar) */}
       <div
         className="absolute left-2 sm:left-3 flex flex-col gap-0.5 sm:gap-1"
-        style={{ top: "32px" }}
+        style={{ top: "52px" }}
       >
         {WINDOW_DEFS.map(def => (
           <DesktopIcon
