@@ -11,11 +11,10 @@ Set these on the worker in the Cloudflare dashboard:
 | Name | Type | Example |
 |------|------|---------|
 | `OPENROUTER_API_KEY` | Secret (encrypted) | your OpenRouter key |
-| `RATE_LIMIT_PER_MINUTE` | Variable | `10` |
 
 Optional: `OPENROUTER_MODEL` in `wrangler.toml` or dashboard (defaults to `openai/gpt-4o-mini`).
 
-No KV namespace required — rate-limit counters use the Workers Cache API.
+Rate limiting uses Cloudflare's [Rate Limiting binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/) — configured in `wrangler.toml` (default: **10 requests per 60 seconds per IP**). Change `[[ratelimits]]` and redeploy to adjust.
 
 ## Deploy
 
@@ -58,4 +57,6 @@ For production, add `GATSBY_CHAT_API_URL` to your build environment before `gats
 
 ## Rate limit
 
-**10 requests per minute per IP** by default (`RATE_LIMIT_PER_MINUTE`).
+**10 requests per minute per IP** via the `CHAT_RATE_LIMITER` binding in `wrangler.toml`.
+
+To change the limit, edit `simple.limit` and/or `simple.period` (must be `10` or `60` seconds), then redeploy.

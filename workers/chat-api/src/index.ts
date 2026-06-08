@@ -1,33 +1,34 @@
+export interface ChatRateLimiter {
+  limit(options: { key: string }): Promise<{ success: boolean }>
+}
+
 export interface Env {
   OPENROUTER_API_KEY: string
-  RATE_LIMIT_PER_MINUTE: string
   OPENROUTER_MODEL?: string
+  CHAT_RATE_LIMITER: ChatRateLimiter
 }
 
 const ALLOWED_ORIGIN = "https://shravan097.github.io"
 
-const SYSTEM_PROMPT = `You are a friendly assistant in a developer's portfolio terminal. Reply in 1-2 short sentences. Be natural: greet back for hello/hi, answer career-related questions briefly. Never apologize, ask for clarification, or say the request is unclear.
+const SYSTEM_PROMPT = `You are a friendly assistant in Shravan Dhakal's portfolio terminal. Keep replies to 1-2 short, natural sentences.
 
-Scope — only answer questions about:
-- Shravan Dhakal (who he is, background, skills, education, experience, work, tech stack, industries, contact links)
-- This portfolio site or terminal (commands, how to learn more about him)
+Focus on career and tech topics that fit a resume site: Shravan's background, skills, experience, education, tech stack, industries he's worked in, and how to connect (LinkedIn, GitHub). You can also help with this portfolio or terminal (e.g. commands, where to learn more).
 
-Do NOT answer unrelated questions (general trivia, homework, news, politics, personal advice, coding help, recipes, math, etc.). For off-topic messages, politely decline in one short sentence and suggest typing 'help' or asking about Shravan's background, skills, or experience. Do not attempt the off-topic task even briefly.
+Stay in the professional lane — software engineering, his work, and job-related questions are all fair game. If someone goes clearly off-topic (recipes, politics, random trivia), briefly steer them back toward his career or tech background instead of answering at length.
 
-When answering about the portfolio owner: use ONLY the facts in the context below. Do not add, infer, or assume any fact not explicitly stated there. For example, "AWS" in context means a technology he uses (cloud), not his employer. If something is not in the context, say you don't know or only state what is in the context. Do not give non-factual answers.`
+Use the context below as your main source. You can speak naturally and helpfully; if you don't know something specific about Shravan, say so briefly rather than making things up.`
 
-const CHAT_CONTEXT = `Facts about the portfolio owner (answer ONLY from this; do not add or assume anything else):
+const CHAT_CONTEXT = `About Shravan Dhakal:
 - Name: Shravan Dhakal. Username: shravan097.
 - Role: Software Engineer.
 - LinkedIn: linkedin.com/in/shravan-dhakal/
 - GitHub: github.com/shravan097
 - Education: BS Computer Science, City College of New York (CCNY), graduated 2019.
-- Skills and tech (things he works with, not employers): Languages: TypeScript, Python, Ruby. Frontend: React, Redux. Backend: Microservices, Monolithic, Serverless, Message Queues, REST, GraphQL. Cloud: AWS (as in the platform). Industries he has worked in: Automotive IoT, Healthtech, Fintech.`
+- Skills and tech: Languages: TypeScript, Python, Ruby. Frontend: React, Redux. Backend: Microservices, Monolithic, Serverless, Message Queues, REST, GraphQL. Cloud: AWS. Industries: Automotive IoT, Healthtech, Fintech.`
 
 const MAX_MESSAGE_LENGTH = 500
 const MAX_OUTPUT_TOKENS = 150
 const DEFAULT_OPENROUTER_MODEL = "openai/gpt-4o-mini"
-const RATE_LIMIT_WINDOW_SECONDS = 60
 
 function isAllowedOrigin(origin: string | null): boolean {
   return origin === ALLOWED_ORIGIN
@@ -60,19 +61,8 @@ function clientIp(request: Request): string {
 }
 
 async function isRateLimited(env: Env, ip: string): Promise<boolean> {
-  const limit = Math.max(1, parseInt(env.RATE_LIMIT_PER_MINUTE, 10) || 10)
-  const bucket = Math.floor(Date.now() / (RATE_LIMIT_WINDOW_SECONDS * 1000))
-  const cacheKey = new Request(`https://rate-limit.local/${encodeURIComponent(ip)}/${bucket}`)
-  const cached = await caches.default.match(cacheKey)
-  const count = cached ? parseInt(await cached.text(), 10) || 0 : 0
-  if (count >= limit) return true
-  await caches.default.put(
-    cacheKey,
-    new Response(String(count + 1), {
-      headers: { "Cache-Control": `max-age=${RATE_LIMIT_WINDOW_SECONDS + 30}` },
-    })
-  )
-  return false
+  const { success } = await env.CHAT_RATE_LIMITER.limit({ key: ip })
+  return !success
 }
 
 export default {

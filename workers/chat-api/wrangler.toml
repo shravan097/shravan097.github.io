@@ -2,7 +2,11 @@ name = "portfolio-chat-api"
 main = "src/index.ts"
 compatibility_date = "2024-05-01"
 
-# Set in Cloudflare UI: OPENROUTER_API_KEY (secret), RATE_LIMIT_PER_MINUTE (variable)
+# Set in Cloudflare UI: OPENROUTER_API_KEY (secret)
 [vars]
 OPENROUTER_MODEL = "openai/gpt-4o-mini"
-RATE_LIMIT_PER_MINUTE = "10"
+
+[[ratelimits]]
+name = "CHAT_RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }

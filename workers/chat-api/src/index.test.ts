@@ -1,27 +1,23 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import worker, { type Env } from "./index"
+import worker, { type ChatRateLimiter, type Env } from "./index"
 
 const ALLOWED_ORIGIN = "https://shravan097.github.io"
 
-function createMockCache(): Cache {
-  const store = new Map<string, string>()
+function createMockRateLimiter(limit: number): ChatRateLimiter {
+  const counts = new Map<string, number>()
   return {
-    match: async (request: Request) => {
-      const count = store.get(request.url)
-      return count !== undefined ? new Response(count) : undefined
+    limit: async ({ key }) => {
+      const count = (counts.get(key) ?? 0) + 1
+      counts.set(key, count)
+      return { success: count <= limit }
     },
-    put: async (request: Request, response: Response) => {
-      store.set(request.url, await response.text())
-    },
-    delete: async () => false,
-    addAll: async () => {},
-  } as unknown as Cache
+  }
 }
 
-function createEnv(overrides: Partial<Env> = {}): Env {
+function createEnv(overrides: Partial<Env> = {}, rateLimit = 10): Env {
   return {
     OPENROUTER_API_KEY: "test-key",
-    RATE_LIMIT_PER_MINUTE: "10",
+    CHAT_RATE_LIMITER: createMockRateLimiter(rateLimit),
     ...overrides,
   }
 }
@@ -56,7 +52,6 @@ function chatRequest(
 
 describe("portfolio chat API worker", () => {
   beforeEach(() => {
-    vi.stubGlobal("caches", { default: createMockCache() })
     vi.stubGlobal(
       "fetch",
       vi.fn(async (input: RequestInfo | URL) => {
@@ -168,7 +163,7 @@ describe("portfolio chat API worker", () => {
   })
 
   it("rate limits repeated requests from the same IP", async () => {
-    const env = createEnv({ RATE_LIMIT_PER_MINUTE: "2" })
+    const env = createEnv({}, 2)
 
     expect(
       (await worker.fetch(
