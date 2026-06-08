@@ -3,6 +3,10 @@ node_modules/
 .cache/
 public
 src/gatsby-types.d.ts
+.env.development
+workers/chat-api/.dev.vars
+workers/chat-api/node_modules
+workers/chat-api/.wrangler
 
 # Hermit: cache and downloaded packages (do not push)
 .hermit/

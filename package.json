@@ -13,7 +13,10 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "chat-api:dev": "npm run dev --prefix workers/chat-api",
+    "chat-api:deploy": "npm run deploy --prefix workers/chat-api",
+    "chat-api:test": "npm run test --prefix workers/chat-api"
   },
   "dependencies": {
     "@fontsource/roboto-mono": "^4.5.8",
@@ -21,17 +24,17 @@
     "@mdx-js/react": "^2.1.3",
     "gatsby": "^4.21.1",
     "gatsby-plugin-google-gtag": "^4.24.0",
-    "gatsby-plugin-graphql-codegen": "^3.1.1",
+    "gatsby-plugin-graphql-codegen": "^3.1.0",
     "gatsby-plugin-prefetch-google-fonts": "^1.4.3",
-    "gatsby-plugin-sass": "^5.21.0",
+    "gatsby-plugin-sass": "^3.2.0",
     "gatsby-plugin-sitemap": "^5.21.0",
-    "gatsby-source-filesystem": "^4.21.1",
+    "gatsby-source-filesystem": "^2.5.0",
     "gatsby-transformer-remark": "^5.24.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-markdown": "^8.0.3",
     "react-simple-typewriter": "^4.0.2",
-    "react-syntax-highlighter": "^15.5.0",
+    "react-syntax-highlighter": "^16.1.1",
     "sass": "^1.54.5"
   },
   "devDependencies": {

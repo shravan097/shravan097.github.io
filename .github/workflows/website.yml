@@ -14,3 +14,5 @@ jobs:
         with:
           access-token: x-access-token:${{ secrets.GITHUB_TOKEN }}
           deploy-branch: gh-pages
+        env:
+          GATSBY_CHAT_API_URL: https://portfolio-chat-api.sadijdhakal.workers.dev

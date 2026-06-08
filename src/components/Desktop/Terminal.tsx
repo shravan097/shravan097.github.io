@@ -1,4 +1,5 @@
 import * as React from "react"
+import { isChatConfigured, sendChatMessage } from "./terminalChatApi"
 
 const COMMANDS: Record<string, string> = {
   help: `Available commands:
@@ -14,7 +15,7 @@ const COMMANDS: Record<string, string> = {
   date            current date & time
   echo <text>     print text
   clear           clear terminal
-  (or type anything — AI will reply, runs in browser, no login)`,
+  (or type anything — AI will reply)`,
 
   whoami: "shravan097 — Software Engineer",
 
@@ -60,65 +61,12 @@ const BANNER = `  ____  _                    ___  ____
  |____/|_| |_|_|  \\___/  \\___/|____/
 
  Welcome to Shravan OS  v1.0.0
- Type 'help' for commands. Type anything else to chat (AI, no login).
+ Type 'help' for commands. Type anything else to chat with AI.
 `
 
 type Line = { type: "input" | "output" | "banner" | "error" | "chat"; text: string }
 
-const HF_CDN = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1"
-
-/** Instruction-following model with ONNX files that load reliably in the browser. */
-const CHAT_MODEL = "Xenova/LaMini-Flan-T5-248M"
-
-const SYSTEM_PROMPT = `You are a friendly assistant in a developer's portfolio terminal. Reply in 1-2 short sentences. Be natural: greet back for hello/hi, answer questions briefly. Never apologize, ask for clarification, or say the request is unclear.
-When answering about the portfolio owner: use ONLY the facts in the context below. Do not add, infer, or assume any fact not explicitly stated there. For example, "AWS" in context means a technology he uses (cloud), not his employer. If something is not in the context, say you don't know or only state what is in the context. Do not give non-factual answers.`
-
-/** Context about Shravan (about, skills, education, experience) — AI must only state these facts, never invent. */
-const CHAT_CONTEXT = `Facts about the portfolio owner (answer ONLY from this; do not add or assume anything else):
-- Name: Shravan Dhakal. Username: shravan097.
-- Role: Software Engineer.
-- LinkedIn: linkedin.com/in/shravan-dhakal/
-- GitHub: github.com/shravan097
-- Education: BS Computer Science, City College of New York (CCNY), graduated 2019.
-- Skills and tech (things he works with, not employers): Languages: TypeScript, Python, Ruby. Frontend: React, Redux. Backend: Microservices, Monolithic, Serverless, Message Queues, REST, GraphQL. Cloud: AWS (as in the platform). Industries he has worked in: Automotive IoT, Healthtech, Fintech.`
-
 const FALLBACK_REPLY = "Hi! Ask me anything or type 'help' for commands."
-
-function buildChatPrompt(userInput: string): string {
-  return `Instruction: ${SYSTEM_PROMPT}\n\n${CHAT_CONTEXT}\n\nUser: ${userInput.trim()}\n\nResponse:`
-}
-
-/** Ask the model if it can answer naturally; returns true if unclear (use fallback). */
-function buildUnclearPrompt(userInput: string): string {
-  return `Can you answer this user message naturally? Reply with exactly one word: OK or UNCLEAR. User: ${userInput.trim()}\n\nReply:`
-}
-
-function parseUnclearFlag(raw: string): boolean {
-  const t = raw.trim().toLowerCase()
-  return t.includes("unclear") || t.startsWith("no")
-}
-
-type ChatPipe = (
-  input: string,
-  opts?: { max_new_tokens?: number }
-) => Promise<Array<{ generated_text: string }>>
-
-/** Load pipeline from CDN (avoids Gatsby/webpack bundling issues). Uses text2text-generation for reliable ONNX loading. */
-async function loadChatPipeline(): Promise<ChatPipe> {
-  const mod = await import(/* webpackIgnore: true */ HF_CDN)
-  const pipeline = mod.pipeline
-  const pipe = await pipeline("text2text-generation", CHAT_MODEL)
-  return async (input, opts = {}) => {
-    const result = await pipe(input, {
-      max_new_tokens: opts?.max_new_tokens ?? 100,
-      temperature: 0.7,
-      repetition_penalty: 1.2,
-      do_sample: true,
-    })
-    const arr = Array.isArray(result) ? result : [result]
-    return arr.map((r: { generated_text?: string }) => ({ generated_text: r?.generated_text ?? "" }))
-  }
-}
 
 export const Terminal: React.FC = () => {
   const [input, setInput] = React.useState("")
@@ -126,7 +74,6 @@ export const Terminal: React.FC = () => {
   const [cmdHistory, setCmdHistory] = React.useState<string[]>([])
   const [historyIdx, setHistoryIdx] = React.useState(-1)
   const [chatLoading, setChatLoading] = React.useState(false)
-  const pipelineRef = React.useRef<Awaited<ReturnType<typeof loadChatPipeline>> | null>(null)
   const bottomRef = React.useRef<HTMLDivElement>(null)
   const inputRef = React.useRef<HTMLInputElement>(null)
 
@@ -134,44 +81,38 @@ export const Terminal: React.FC = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [lines])
 
-  const runChatFallback = React.useCallback(async (userInput: string) => {
+  const runChat = React.useCallback(async (userInput: string) => {
     if (typeof window === "undefined") return
 
+    if (!isChatConfigured()) {
+      setLines(prev => [
+        ...prev,
+        {
+          type: "error",
+          text: "Chat is not configured. Set GATSBY_CHAT_API_URL for this build.",
+        },
+      ])
+      return
+    }
+
     setChatLoading(true)
-    setLines(prev => [
-      ...prev,
-      { type: "output", text: "⏳ Loading AI model (first time only, ~50MB)…" },
-    ])
+    setLines(prev => [...prev, { type: "output", text: "Thinking…" }])
+
     try {
-      if (!pipelineRef.current) {
-        pipelineRef.current = await loadChatPipeline()
-      }
-      const pipe = pipelineRef.current
-
+      const result = await sendChatMessage(userInput)
       setLines(prev => {
         const next = [...prev]
-        next[next.length - 1] = { type: "output", text: "Thinking…" }
-        return next
-      })
-
-      const unclearOut = await pipe(buildUnclearPrompt(userInput), { max_new_tokens: 6 })
-      const unclearRaw = (unclearOut?.[0]?.generated_text ?? "").trim()
-      if (parseUnclearFlag(unclearRaw)) {
-        setLines(prev => {
-          const next = [...prev]
-          next[next.length - 1] = { type: "chat", text: FALLBACK_REPLY }
-          return next
-        })
-        return
-      }
-
-      const prompt = buildChatPrompt(userInput)
-      const out = await pipe(prompt, { max_new_tokens: 120 })
-      let text = (out?.[0]?.generated_text ?? "").trim()
-      text = text.replace(/^(Response:?\s*)/i, "").trim() || text
-      setLines(prev => {
-        const next = [...prev]
-        next[next.length - 1] = { type: "chat", text: text || FALLBACK_REPLY }
+        if (result.ok) {
+          next[next.length - 1] = {
+            type: "chat",
+            text: result.text || FALLBACK_REPLY,
+          }
+        } else {
+          next[next.length - 1] = {
+            type: "error",
+            text: result.message,
+          }
+        }
         return next
       })
     } catch (err) {
@@ -224,7 +165,7 @@ export const Terminal: React.FC = () => {
       setCmdHistory(h => [cmd, ...h])
       setHistoryIdx(-1)
       setInput("")
-      runChatFallback(cmd)
+      runChat(cmd)
       return
     }
 
