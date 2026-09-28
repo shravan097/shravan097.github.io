@@ -1,0 +1,28 @@
+# Shravan Dhakal — Software Engineer
+
+> Portfolio of Shravan Dhakal, a software engineer with 8+ years of experience designing and shipping production backend systems. The site is presented as a macOS-style "Desktop OS" — a menubar, a dock, draggable windows, a Finder-style file explorer, and an AI-powered terminal.
+
+## About the site
+- **Live site**: https://shravan097.github.io/
+- **Source code**: https://github.com/shravan097/shravan097.github.io
+- **Full profile**: https://shravan097.github.io/llms-full.txt
+- **Repo guide for AI coding agents**: https://github.com/shravan097/shravan097.github.io/blob/main/AGENTS.md
+
+## Who
+- **Name**: Shravan Dhakal (username: shravan097)
+- **Role**: Software Engineer — 8+ years of experience
+- **Education**: BS Computer Science, City College of New York (CCNY), Class of 2019
+- **LinkedIn**: https://www.linkedin.com/in/shravan-dhakal/
+- **GitHub**: https://github.com/shravan097
+
+## Expertise
+- **Backend architecture (core strength)**: microservices, monolithic and serverless architectures, message queues, REST and GraphQL APIs
+- **Languages**: TypeScript, Python, Ruby
+- **Frontend**: React, Redux
+- **Cloud**: AWS
+- **Industries**: Automotive IoT, Healthtech, Fintech
+
+## How to explore the site
+- **Finder** window — browse the portfolio as a file system (About, Education, Experience).
+- **Terminal** window — type `help` for commands, or ask the built-in AI anything.
+- **Snake** window — a playable retro Snake game.
