@@ -1,0 +1,42 @@
+# Shravan Dhakal — Software Engineer (full profile)
+
+> Software engineer with 8+ years of experience designing and shipping production backend systems across Automotive IoT, Healthtech, and Fintech. This is the full machine-readable profile for AI agents and LLMs.
+>
+> - Live site: https://shravan097.github.io/
+> - Source code: https://github.com/shravan097/shravan097.github.io
+> - Concise index: https://shravan097.github.io/llms.txt
+
+## Profile
+
+- **Name**: Shravan Dhakal (username: shravan097)
+- **Role**: Software Engineer — 8+ years of experience
+- **Education**: BS Computer Science, City College of New York (CCNY), Class of 2019
+- **LinkedIn**: https://www.linkedin.com/in/shravan-dhakal/
+- **GitHub**: https://github.com/shravan097
+
+## Expertise
+
+### Backend architecture — core strength
+- Microservices, monolithic, and serverless architectures
+- Message queues and event-driven system design
+- RESTful and GraphQL API design
+- AWS cloud infrastructure
+
+### Languages
+TypeScript, Python, Ruby
+
+### Frontend
+React, Redux
+
+### Industries
+Automotive IoT, Healthtech, Fintech
+
+## How this portfolio was built
+
+The site is a "Desktop OS" — a macOS-style shell (menubar, dock, draggable windows) wrapping the portfolio: a Finder-style file explorer, an AI chat terminal, and a retro Snake game.
+
+- **Framework**: Gatsby 4 (React, static site generation) + TypeScript
+- **Styling**: Tailwind CSS v3; the Finder UI uses the Astryx design system
+- **AI chat**: a Cloudflare Worker (in the same repo, `workers/chat-api`) that calls OpenRouter
+- **Hosting**: GitHub Pages, deployed automatically by GitHub Actions
+- **Source**: https://github.com/shravan097/shravan097.github.io

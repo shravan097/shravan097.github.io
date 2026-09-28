@@ -1,4 +1,5 @@
 import * as React from "react"
+import { DOCK_CLEARANCE, MENUBAR_HEIGHT, WINDOW_MARGIN } from "./layout"
 
 type WindowProps = {
   id: string
@@ -26,56 +27,67 @@ export const Window: React.FC<WindowProps> = ({
   onFocus,
   children,
 }) => {
-  const [pos, setPos] = React.useState({ x: defaultX, y: defaultY })
+  const [pos, setPos] = React.useState({ x: defaultX, y: Math.max(defaultY, MENUBAR_HEIGHT) })
   const [size, setSize] = React.useState({ w: defaultWidth, h: defaultHeight })
   const dragging = React.useRef(false)
   const dragOffset = React.useRef({ x: 0, y: 0 })
   const touchId = React.useRef<number | null>(null)
 
-  const clampPos = React.useCallback((x: number, y: number) => {
-    const vw = typeof window !== "undefined" ? window.innerWidth : 1024
-    const vh = typeof window !== "undefined" ? window.innerHeight : 768
-    const margin = 8
-    const maxX = Math.max(0, vw - size.w - margin)
-    const maxY = Math.max(0, vh - size.h - margin - 32)
-    return {
-      x: Math.max(margin, Math.min(x, maxX)),
-      y: Math.max(margin, Math.min(y, maxY)),
-    }
-  }, [size.w, size.h])
+  const clampPos = React.useCallback(
+    (x: number, y: number) => {
+      const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1024
+      const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 768
+      const maxX = Math.max(WINDOW_MARGIN, viewportWidth - size.w - WINDOW_MARGIN)
+      const maxY = Math.max(
+        MENUBAR_HEIGHT,
+        viewportHeight - size.h - DOCK_CLEARANCE
+      )
+      return {
+        x: Math.max(WINDOW_MARGIN, Math.min(x, maxX)),
+        y: Math.max(MENUBAR_HEIGHT, Math.min(y, maxY)),
+      }
+    },
+    [size.w, size.h]
+  )
 
   React.useEffect(() => {
-    const vw = typeof window !== "undefined" ? window.innerWidth : 1024
-    const vh = typeof window !== "undefined" ? window.innerHeight : 768
-    const maxW = Math.min(defaultWidth, vw - 16)
-    const maxH = Math.min(defaultHeight, vh - 80)
-    setSize({ w: maxW, h: maxH })
-    setPos(prev => clampPos(prev.x, prev.y))
+    const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1024
+    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 768
+    const maxWidth = Math.min(defaultWidth, viewportWidth - WINDOW_MARGIN * 2)
+    const maxHeight = Math.min(
+      defaultHeight,
+      viewportHeight - MENUBAR_HEIGHT - DOCK_CLEARANCE
+    )
+    setSize({ w: maxWidth, h: maxHeight })
+    setPos(previous => clampPos(previous.x, previous.y))
   }, [defaultWidth, defaultHeight, clampPos])
 
-  const onTitleMouseDown = (e: React.MouseEvent) => {
+  const onTitleMouseDown = (event: React.MouseEvent) => {
     dragging.current = true
-    dragOffset.current = { x: e.clientX - pos.x, y: e.clientY - pos.y }
-    e.preventDefault()
+    dragOffset.current = { x: event.clientX - pos.x, y: event.clientY - pos.y }
+    event.preventDefault()
   }
 
-  const onTitleTouchStart = (e: React.TouchEvent) => {
-    if (e.touches.length !== 1) return
+  const onTitleTouchStart = (event: React.TouchEvent) => {
+    if (event.touches.length !== 1) return
     dragging.current = true
-    touchId.current = e.touches[0].identifier
+    touchId.current = event.touches[0].identifier
     dragOffset.current = {
-      x: e.touches[0].clientX - pos.x,
-      y: e.touches[0].clientY - pos.y,
+      x: event.touches[0].clientX - pos.x,
+      y: event.touches[0].clientY - pos.y,
     }
   }
 
-  const onTitleTouchMove = (e: React.TouchEvent) => {
+  const onTitleTouchMove = (event: React.TouchEvent) => {
     if (!dragging.current || touchId.current === null) return
-    const t = Array.from(e.touches).find(touch => touch.identifier === touchId.current)
-    if (!t) return
-    e.preventDefault()
-    const next = clampPos(t.clientX - dragOffset.current.x, t.clientY - dragOffset.current.y)
-    setPos(next)
+    const touch = Array.from(event.touches).find(
+      candidate => candidate.identifier === touchId.current
+    )
+    if (!touch) return
+    event.preventDefault()
+    setPos(
+      clampPos(touch.clientX - dragOffset.current.x, touch.clientY - dragOffset.current.y)
+    )
   }
 
   const onTitleTouchEnd = () => {
@@ -84,10 +96,11 @@ export const Window: React.FC<WindowProps> = ({
   }
 
   React.useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
+    const onMouseMove = (event: MouseEvent) => {
       if (!dragging.current) return
-      const next = clampPos(e.clientX - dragOffset.current.x, e.clientY - dragOffset.current.y)
-      setPos(next)
+      setPos(
+        clampPos(event.clientX - dragOffset.current.x, event.clientY - dragOffset.current.y)
+      )
     }
     const onMouseUp = () => {
       dragging.current = false
@@ -108,20 +121,27 @@ export const Window: React.FC<WindowProps> = ({
         top: pos.y,
         width: size.w,
         height: size.h,
-        maxWidth: "calc(100vw - 16px)",
-        maxHeight: "calc(100vh - 80px)",
+        maxWidth: `calc(100vw - ${WINDOW_MARGIN * 2}px)`,
+        maxHeight: `calc(100vh - ${MENUBAR_HEIGHT + DOCK_CLEARANCE}px)`,
         zIndex,
+        pointerEvents: "auto",
       }}
       onMouseDown={onFocus}
     >
       <div
-        className="flex flex-col rounded-xl overflow-hidden shadow-2xl border border-slate-700/60"
-        style={{ height: "100%", background: "#0f172a" }}
+        className="flex flex-col rounded-xl overflow-hidden shadow-2xl border"
+        style={{
+          height: "100%",
+          background: "var(--color-background-surface)",
+          borderColor: "var(--color-border)",
+        }}
       >
-        {/* macOS-style title bar — mouse + touch drag */}
         <div
           className="flex items-center px-2 sm:px-3 h-9 sm:h-9 min-h-[44px] cursor-move select-none flex-shrink-0 touch-none"
-          style={{ background: "#1e293b", borderBottom: "1px solid rgba(51,65,85,0.8)" }}
+          style={{
+            background: "var(--color-background-muted)",
+            borderBottom: "1px solid var(--color-border)",
+          }}
           onMouseDown={onTitleMouseDown}
           onTouchStart={onTitleTouchStart}
           onTouchMove={onTitleTouchMove}
@@ -130,7 +150,7 @@ export const Window: React.FC<WindowProps> = ({
         >
           <div className="flex gap-1.5 sm:gap-2 items-center flex-shrink-0">
             <button
-              onMouseDown={e => e.stopPropagation()}
+              onMouseDown={event => event.stopPropagation()}
               onClick={onClose}
               className="w-8 h-8 sm:w-3 sm:h-3 rounded-full hover:opacity-80 transition-opacity flex items-center justify-center flex-shrink-0"
               style={{ background: "#ef4444" }}
@@ -140,17 +160,27 @@ export const Window: React.FC<WindowProps> = ({
             >
               <span className="text-red-900 font-bold text-xs leading-none">✕</span>
             </button>
-            <div className="w-3 h-3 rounded-full hidden sm:block" style={{ background: "#eab308" }} />
-            <div className="w-3 h-3 rounded-full hidden sm:block" style={{ background: "#22c55e" }} />
+            <div
+              className="w-3 h-3 rounded-full hidden sm:block"
+              style={{ background: "#eab308" }}
+            />
+            <div
+              className="w-3 h-3 rounded-full hidden sm:block"
+              style={{ background: "#22c55e" }}
+            />
           </div>
           <div className="flex-1 flex items-center justify-center gap-1.5 pointer-events-none min-w-0 px-1">
             <span className="text-sm leading-none flex-shrink-0">{icon}</span>
-            <span className="text-xs sm:text-sm text-slate-300 font-mono truncate">{title}</span>
+            <span className="text-xs sm:text-sm dark:text-slate-300 text-slate-600 font-mono truncate">
+              {title}
+            </span>
           </div>
         </div>
 
-        {/* Content area */}
-        <div className="flex-1 overflow-auto min-h-0 text-slate-100 text-sm">
+        <div
+          className="flex-1 overflow-auto min-h-0 text-sm"
+          style={{ color: "var(--color-text-primary)" }}
+        >
           {children}
         </div>
       </div>

@@ -267,6 +267,7 @@ export type SiteBuildTimeArgs = {
 
 export type SiteGraphqlTypegen = {
   typesOutputPath?: Maybe<Scalars['String']>;
+  generateOnBuild?: Maybe<Scalars['Boolean']>;
 };
 
 export type SiteSiteMetadata = {
@@ -1476,6 +1477,7 @@ export type SiteSiteMetadataFilterInput = {
 
 export type SiteGraphqlTypegenFilterInput = {
   typesOutputPath?: InputMaybe<StringQueryOperatorInput>;
+  generateOnBuild?: InputMaybe<BooleanQueryOperatorInput>;
 };
 
 export type SiteConnection = {
@@ -1532,6 +1534,7 @@ export type SiteFieldsEnum =
   | 'port'
   | 'host'
   | 'graphqlTypegen___typesOutputPath'
+  | 'graphqlTypegen___generateOnBuild'
   | 'polyfill'
   | 'pathPrefix'
   | 'jsxRuntime'
@@ -2775,16 +2778,21 @@ export type Unnamed_1_Query = { allMarkdownRemark: { edges: Array<{ node: { id: 
 export type Unnamed_2_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_2_Query = { allMarkdownRemark: { edges: Array<{ node: { id: string, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } }> } };
+export type Unnamed_2_Query = { allMarkdownRemark: { edges: Array<{ node: { id: string, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null } | null } }> } };
 
 export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_3_Query = { site?: { siteMetadata?: { title?: string | null, description?: string | null, image?: string | null, siteUrl?: string | null } | null } | null };
+export type Unnamed_3_Query = { allMarkdownRemark: { edges: Array<{ node: { id: string, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } }> } };
 
-export type Unnamed_4_QueryVariables = Exact<{
+export type Unnamed_4_QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Unnamed_4_Query = { site?: { siteMetadata?: { title?: string | null, description?: string | null, image?: string | null, siteUrl?: string | null } | null } | null };
+
+export type Unnamed_5_QueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type Unnamed_4_Query = { markdownRemark?: { rawMarkdownBody?: string | null, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } | null };
+export type Unnamed_5_Query = { markdownRemark?: { rawMarkdownBody?: string | null, frontmatter?: { date?: any | null, slug?: string | null, title?: string | null, tags?: Array<string | null> | null } | null } | null };

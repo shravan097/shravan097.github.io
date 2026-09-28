@@ -22,10 +22,10 @@ export const BlogContent: React.FC = () => {
   `)
 
   return (
-    <div className="p-4 h-full overflow-y-auto" style={{ background: "#0f172a" }}>
+    <div className="p-4 h-full overflow-y-auto" style={{ background: "var(--color-background-surface)" }}>
       <h2
-        className="font-mono text-lg font-bold mb-4 pb-2 border-b"
-        style={{ color: "#818cf8", borderColor: "rgba(51,65,85,0.8)" }}
+        className="font-mono text-lg font-bold mb-4 pb-2 border-b dark:text-indigo-400 text-indigo-600"
+        style={{ borderColor: "var(--color-border)" }}
       >
         📝 Recent Blog Posts
       </h2>
@@ -41,17 +41,16 @@ export const BlogContent: React.FC = () => {
               <div
                 key={node.id}
                 className="pb-3 border-b"
-                style={{ borderColor: "rgba(51,65,85,0.5)" }}
+                style={{ borderColor: "var(--color-border)" }}
               >
                 <Link to={slug}>
                   <p
-                    className="font-mono text-base hover:underline transition-colors"
-                    style={{ color: "#a5b4fc" }}
+                    className="font-mono text-base hover:underline transition-colors dark:text-indigo-300 text-indigo-600"
                   >
                     {title}
                   </p>
                 </Link>
-                <p className="font-mono text-xs mt-1" style={{ color: "#64748b" }}>
+                <p className="font-mono text-xs mt-1" style={{ color: "var(--color-text-secondary)" }}>
                   {date}
                 </p>
                 <Tags tags={tags} />

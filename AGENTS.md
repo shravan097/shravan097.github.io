@@ -8,7 +8,7 @@
 
 | What | Details |
 |------|--------|
-| **Purpose** | Personal portfolio + blog for Shravan Dhakal. Marketing/identity: name, LinkedIn, GitHub are always visible (dock). |
+| **Purpose** | Personal portfolio + blog for Shravan Dhakal. **macOS Desktop shell** (menubar + dock + windows) with an **Astryx File Explorer** inside the Finder window. |
 | **Live site** | https://shravan097.github.io/ |
 | **Framework** | Gatsby 4 (React, SSG) |
 | **Language** | TypeScript |
@@ -33,20 +33,30 @@
 │   │   ├── 404.tsx
 │   │   └── {MarkdownRemark...}.tsx   # Blog post template
 │   ├── components/
-│   │   ├── Desktop/          # ★ Main UI: OS shell
-│   │   │   ├── index.tsx     # Orchestrator, window defs, window content (About/Education/Experience)
-│   │   │   ├── Window.tsx    # Draggable macOS-style window (title bar, close)
+│   │   ├── Desktop/          # ★ Shell: menubar, dock, windows
+│   │   │   ├── index.tsx     # WINDOW_DEFS + WindowContent (Finder, About, Snake, …)
+│   │   │   ├── Window.tsx    # Draggable macOS-style window
 │   │   │   ├── Menubar.tsx   # Top bar: "Shravan OS", clock
-│   │   │   ├── Dock.tsx      # Bottom dock: avatar, name, LinkedIn, GitHub, app launchers
-│   │   │   ├── DesktopIcon.tsx
-│   │   │   ├── Terminal.tsx  # Interactive terminal (whoami, open linkedin, etc.)
-│   │   │   └── BlogContent.tsx  # Blog list (GraphQL)
-│   │   ├── Navbar/           # Legacy; not used on index (Desktop replaces it)
+│   │   │   ├── Dock.tsx      # Bottom dock: avatar, LinkedIn, GitHub, apps
+│   │   │   ├── Snake.tsx     # Retro Snake game
+│   │   │   ├── Terminal.tsx  # Interactive terminal
+│   │   │   └── BlogContent.tsx
+│   │   ├── FileExplorer/     # Astryx Finder UI (embedded in Finder window)
+│   │   │   ├── index.tsx     # Toolbar + grid/list/column/gallery views
+│   │   │   ├── filesystem.ts # Portfolio → folder/file tree
+│   │   │   ├── views.tsx     # Grid / List / Gallery layouts
+│   │   │   └── DetailPanel.tsx
+│   │   ├── Navbar/           # Legacy; not used on index
 │   │   ├── Pages/            # Legacy section components (intropage, education, experience, blog)
 │   │   ├── Icons/, socialLogos.tsx, tags.tsx, seo.tsx
 │   ├── posts/                # Markdown blog posts
 │   └── styles/               # global.css, shared.tsx
 ├── bin/                      # Hermit env (hermit.hcl, README.hermit.md)
+├── static/                   # Copied verbatim to site root on build
+│   ├── llms.txt              # LLM/agent summary of the site (llms.txt standard)
+│   ├── llms-full.txt         # Full profile + all blog post content
+│   └── robots.txt            # Crawler policy + sitemap reference
+├── workers/chat-api/         # Cloudflare Worker powering the terminal AI chat (OpenRouter)
 ├── run                       # Script: activate Hermit + npm run develop
 ├── gatsby-config.ts
 ├── tailwind.config.js
@@ -57,21 +67,27 @@
 
 ## Where to change things
 
-- **Add/change an “app” (window):** `src/components/Desktop/index.tsx` — extend `WINDOW_DEFS`, add a case in `WindowContent`, and optionally add a dock item in `Dock.tsx` (`APPS`).
-- **Dock branding (name, LinkedIn, GitHub):** `src/components/Desktop/Dock.tsx`.
-- **Terminal commands:** `src/components/Desktop/Terminal.tsx` — `COMMANDS` and the `open linkedin` / `open github` handling.
-- **Blog content:** Add `.md` in `src/posts/`; frontmatter must include `slug`, `title`, `date`, `tags`. Blog list is GraphQL in `BlogContent.tsx`.
-- **Site metadata / SEO:** `gatsby-config.ts` `siteMetadata` and `src/components/seo.tsx`.
-- **Global styles:** `src/styles/global.css`; Tailwind config in `tailwind.config.js`.
+- **Add/change an app window:** add one entry to `Desktop/apps.ts` — Dock, File menu, and desktop icons update automatically. Then add a `WindowContent` case in `Desktop/index.tsx`.
+- **Add/change portfolio files in Finder:** `FileExplorer/filesystem.ts` (+ `resolveOpenAction` for double-click) and `DetailPanel.tsx`.
+- **File Explorer toolbar / view modes:** `FileExplorer/index.tsx` + `views.tsx`.
+- **Layout chrome (menubar / dock clearance):** `Desktop/layout.ts`.
+- **Terminal commands:** `Desktop/Terminal.tsx`.
+- **Astryx theme/CSS:** `gatsby-browser.ts` + `src/styles/global.css`.
+- **Blog content:** Add `.md` in `src/posts/`; frontmatter must include `slug`, `title`, `date`, `tags`.
+- **Site metadata / SEO:** `gatsby-config.ts` + `src/components/seo.tsx`.
+- **Agent/LLM site summaries:** `static/llms.txt` (index) + `static/llms-full.txt` (full content) — keep in sync when profile, skills, or blog posts change.
+- **Terminal AI chat (prompt, context, model, rate limiting):** `workers/chat-api/src/index.ts` — deploy with `npm run chat-api:deploy`.
 
 ---
 
 ## Conventions and gotchas
 
-- **SSR:** The Desktop is client-only. `Desktop/index.tsx` uses a `mounted` check and renders a blank dark div during SSR to avoid hydration mismatch.
-- **No react-rnd:** Windows are draggable via plain React state + mouse events in `Window.tsx`.
-- **Blog:** Uses `gatsby-transformer-remark`; blog template is the dynamic page under `src/pages/`.
-- **Old components:** `Navbar`, `IntroPage`, `Education`, `Experience`, `Blog` under `components/Pages/` are legacy; the live index uses Desktop and in-window content defined in `Desktop/index.tsx` (AboutContent, EducationContent, ExperienceContent) plus `BlogContent.tsx` for the blog list.
+- **SSR:** Desktop and FileExplorer use a `mounted` check to avoid hydration mismatch.
+- **Windows stay below menubar:** `Window.tsx` clamps `y >= MENUBAR_HEIGHT` from `layout.ts`.
+- **Finder UX:** single-click selects / previews; double-click opens (app window, external URL, or blog route).
+- **Astryx:** Requires React 19; installed with `legacy-peer-deps` for Gatsby 4. Theme CSS imported in `gatsby-browser.ts`.
+- **Blog:** Uses `gatsby-transformer-remark`; posts also appear under Finder’s Blog folder.
+- **Old components:** `Navbar`, `IntroPage`, etc. under `components/Pages/` are legacy.
 
 ---
 

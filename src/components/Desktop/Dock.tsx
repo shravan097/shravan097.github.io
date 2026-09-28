@@ -1,18 +1,5 @@
 import * as React from "react"
-
-type AppDef = {
-  id: string
-  icon: string
-  label: string
-}
-
-const APPS: AppDef[] = [
-  { id: "about", icon: "👤", label: "About" },
-  { id: "education", icon: "🎓", label: "Education" },
-  { id: "experience", icon: "💼", label: "Experience" },
-  { id: "blog", icon: "📝", label: "Blog" },
-  { id: "terminal", icon: "⌨️", label: "Terminal" },
-]
+import { APPS } from "./apps"
 
 type DockProps = {
   openWindows: string[]
@@ -22,19 +9,25 @@ type DockProps = {
 export const Dock: React.FC<DockProps> = ({ openWindows, onOpen }) => {
   return (
     <div
-      className="fixed bottom-2 left-2 right-2 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-[200] flex items-end gap-1 sm:gap-1.5 px-2 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl border border-white/10 shadow-2xl overflow-x-auto overflow-y-hidden scrollbar-hide"
-      style={{ background: "rgba(15,23,42,0.88)", backdropFilter: "blur(24px)", WebkitOverflowScrolling: "touch" }}
+      className="fixed bottom-2 left-2 right-2 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-[200] flex items-end gap-1 sm:gap-1.5 px-2 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl border dark:border-white/10 border-black/10 shadow-2xl overflow-x-auto overflow-y-hidden scrollbar-hide"
+      style={{
+        background:
+          "color-mix(in srgb, var(--color-background-surface) 88%, transparent)",
+        backdropFilter: "blur(24px)",
+        WebkitOverflowScrolling: "touch",
+      }}
     >
-      {/* --- Persistent Branding: Name badge --- */}
       <div className="flex flex-col items-center mx-0.5 sm:mx-1 group flex-shrink-0">
         <div className="relative">
           <img
             src="https://avatars.githubusercontent.com/u/23582455?v=4"
             alt="Shravan Dhakal"
             className="w-11 h-11 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl object-cover transition-transform group-hover:-translate-y-2 duration-200"
-            style={{ boxShadow: "0 0 20px rgba(99,102,241,0.7), 0 4px 12px rgba(0,0,0,0.5)" }}
+            style={{
+              boxShadow:
+                "0 0 20px rgba(99,102,241,0.7), 0 4px 12px rgba(0,0,0,0.5)",
+            }}
           />
-          {/* green "online" dot */}
           <span
             className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-slate-900"
             style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }}
@@ -48,10 +41,8 @@ export const Dock: React.FC<DockProps> = ({ openWindows, onOpen }) => {
         </span>
       </div>
 
-      {/* Separator */}
       <div className="w-px h-10 sm:h-12 bg-white/10 mx-1 sm:mx-1.5 self-center flex-shrink-0" />
 
-      {/* --- Persistent Branding: LinkedIn --- */}
       <a
         href="https://www.linkedin.com/in/shravan-dhakal/"
         target="_blank"
@@ -63,25 +54,20 @@ export const Dock: React.FC<DockProps> = ({ openWindows, onOpen }) => {
           className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center transition-transform group-hover:-translate-y-2 duration-200"
           style={{
             background: "#0A66C2",
-            boxShadow: "0 0 18px rgba(10,102,194,0.8), 0 4px 12px rgba(0,0,0,0.4)",
+            boxShadow:
+              "0 0 18px rgba(10,102,194,0.8), 0 4px 12px rgba(0,0,0,0.4)",
           }}
         >
           <svg viewBox="0 0 24 24" className="w-6 h-6 sm:w-7 sm:h-7 fill-white">
             <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
             <circle cx="4" cy="4" r="2" />
           </svg>
-          {/* pulsing ring */}
-          <span
-            className="absolute inset-0 rounded-xl animate-ping opacity-30"
-            style={{ background: "#0A66C2" }}
-          />
         </div>
         <span className="text-[10px] sm:text-xs font-mono mt-0.5 sm:mt-1 text-blue-400 group-hover:text-blue-300 font-semibold transition-colors">
           LinkedIn
         </span>
       </a>
 
-      {/* --- Persistent Branding: GitHub --- */}
       <a
         href="https://github.com/shravan097"
         target="_blank"
@@ -93,7 +79,8 @@ export const Dock: React.FC<DockProps> = ({ openWindows, onOpen }) => {
           className="w-11 h-11 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center transition-transform group-hover:-translate-y-2 duration-200"
           style={{
             background: "#24292e",
-            boxShadow: "0 0 14px rgba(255,255,255,0.15), 0 4px 12px rgba(0,0,0,0.5)",
+            boxShadow:
+              "0 0 14px rgba(255,255,255,0.15), 0 4px 12px rgba(0,0,0,0.5)",
             border: "1px solid rgba(255,255,255,0.15)",
           }}
         >
@@ -106,10 +93,8 @@ export const Dock: React.FC<DockProps> = ({ openWindows, onOpen }) => {
         </span>
       </a>
 
-      {/* Separator */}
       <div className="w-px h-10 sm:h-12 bg-white/10 mx-1 sm:mx-1.5 self-center flex-shrink-0" />
 
-      {/* App launchers */}
       {APPS.map(app => (
         <button
           key={app.id}
@@ -131,7 +116,6 @@ export const Dock: React.FC<DockProps> = ({ openWindows, onOpen }) => {
           <span className="text-[10px] sm:text-xs font-mono mt-0.5 sm:mt-1 text-slate-500 group-hover:text-slate-300 transition-colors">
             {app.label}
           </span>
-          {/* Open indicator dot */}
           {openWindows.includes(app.id) && (
             <span className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-slate-300" />
           )}

@@ -1,14 +1,43 @@
+/*
+ * Layer order for Astryx + Tailwind v3 coexistence.
+ * Astryx CSS is imported in gatsby-browser.ts (before this file).
+ */
+@layer reset, base, astryx-base, astryx-theme, components, utilities;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  ul, ol {
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    background: var(--color-background-body);
+    color: var(--color-text-primary);
+    /* Smooth light/dark switching (web.dev dark-mode best practice) */
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ul,
+  ol {
     list-style: revert;
   }
 }
 
-/* Hide scrollbar on dock for mobile while keeping scroll */
+/* Respect reduced-motion preferences (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;

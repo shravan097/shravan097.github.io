@@ -6,7 +6,7 @@ export const Tags = (props: { tags: Array<String> }) => {
      {
       props.tags.map(tag => {
         return (
-          <p className=" bg-zinc-400 m-2 px-3 py-1 text-sm text-zinc-800 rounded-full  font-semibold "> {tag} </p>
+           <p className="m-2 px-3 py-1 text-sm rounded-full font-semibold dark:bg-zinc-700 dark:text-zinc-100 bg-zinc-200 text-zinc-700"> {tag} </p>
         )
       })
      }
