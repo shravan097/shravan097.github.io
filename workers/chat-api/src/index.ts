@@ -8,6 +8,8 @@ export interface Env {
   CHAT_RATE_LIMITER: ChatRateLimiter
 }
 
+export type ChatTurn = { role: "user" | "assistant"; content: string }
+
 const ALLOWED_ORIGIN = "https://shravan097.github.io"
 
 const SYSTEM_PROMPT = `You are a friendly assistant in Shravan Dhakal's portfolio terminal. Keep replies to 1-2 short, natural sentences.
@@ -38,6 +40,7 @@ About this site (how it was built):
 - Source code: https://github.com/shravan097/shravan097.github.io — the repo includes an AGENTS.md guide for AI coding agents and an llms.txt summary for LLMs.`
 
 const MAX_MESSAGE_LENGTH = 500
+const MAX_MESSAGES = 32
 const MAX_OUTPUT_TOKENS = 150
 const DEFAULT_OPENROUTER_MODEL = "openai/gpt-4o-mini"
 
@@ -76,6 +79,31 @@ async function isRateLimited(env: Env, ip: string): Promise<boolean> {
   return !success
 }
 
+/**
+ * Normalize the request body into a sanitized list of chat turns.
+ * Accepts either a `messages` array (preferred) or a single `message` string
+ * (legacy). Drops empty turns, caps each turn's length, and keeps only the
+ * most recent MAX_MESSAGES so a client can never blow up the model context.
+ */
+function parseMessages(body: { messages?: unknown; message?: unknown }): ChatTurn[] {
+  const source: unknown[] = Array.isArray(body.messages) ? body.messages : [body.message]
+  const turns: ChatTurn[] = []
+  for (const item of source) {
+    if (typeof item === "string") {
+      const content = item.trim().slice(0, MAX_MESSAGE_LENGTH)
+      if (content) turns.push({ role: "user", content })
+      continue
+    }
+    if (item && typeof item === "object") {
+      const { role, content } = item as { role?: unknown; content?: unknown }
+      const normalizedRole: ChatTurn["role"] = role === "assistant" ? "assistant" : "user"
+      const text = String(content ?? "").trim().slice(0, MAX_MESSAGE_LENGTH)
+      if (text) turns.push({ role: normalizedRole, content: text })
+    }
+  }
+  return turns.slice(-MAX_MESSAGES)
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const origin = request.headers.get("Origin")
@@ -104,15 +132,15 @@ export default {
       return json({ error: "Too many requests. Try again in a minute." }, 429, origin)
     }
 
-    let message: string
+    let messages: ChatTurn[]
     try {
-      const body = (await request.json()) as { message?: unknown }
-      message = String(body.message ?? "").trim().slice(0, MAX_MESSAGE_LENGTH)
+      const body = (await request.json()) as { messages?: unknown; message?: unknown }
+      messages = parseMessages(body)
     } catch {
       return json({ error: "Invalid JSON body" }, 400, origin)
     }
 
-    if (!message) {
+    if (messages.length === 0) {
       return json({ error: "message is required" }, 400, origin)
     }
 
@@ -129,7 +157,7 @@ export default {
         max_tokens: MAX_OUTPUT_TOKENS,
         messages: [
           { role: "system", content: `${SYSTEM_PROMPT}\n\n${CHAT_CONTEXT}` },
-          { role: "user", content: message },
+          ...messages,
         ],
       }),
     })

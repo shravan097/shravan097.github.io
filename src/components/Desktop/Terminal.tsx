@@ -1,5 +1,5 @@
 import * as React from "react"
-import { isChatConfigured, sendChatMessage } from "./terminalChatApi"
+import { isChatConfigured, sendChatMessage, type ChatMessage } from "./terminalChatApi"
 
 /**
  * Retro-modern terminal: Warp-style UX (command suggestions, tab completion,
@@ -122,6 +122,7 @@ export const Terminal: React.FC = () => {
   const [cmdHistory, setCmdHistory] = React.useState<string[]>([])
   const [historyIdx, setHistoryIdx] = React.useState(-1)
   const [chatLoading, setChatLoading] = React.useState(false)
+  const [chatHistory, setChatHistory] = React.useState<ChatMessage[]>([])
   const bottomRef = React.useRef<HTMLDivElement>(null)
   const inputRef = React.useRef<HTMLInputElement>(null)
 
@@ -145,26 +146,37 @@ export const Terminal: React.FC = () => {
       return
     }
 
+    // Bounded conversation history: the last 16 messages (8 exchanges) so the
+    // request stays small no matter how long the chat gets.
+    const history: ChatMessage[] = [...chatHistory]
+    history.push({ role: "user", content: userInput })
+    const windowed = history.slice(-16)
+
     setChatLoading(true)
     setLines(prev => [...prev, { type: "thinking", text: "AI thinking" }])
 
     try {
-      const result = await sendChatMessage(userInput)
-      setLines(prev => {
-        const next = [...prev]
-        if (result.ok) {
-          next[next.length - 1] = {
-            type: "chat",
-            text: result.text || FALLBACK_REPLY,
-          }
-        } else {
-          next[next.length - 1] = {
-            type: "error",
-            text: result.message,
-          }
-        }
-        return next
-      })
+      const result = await sendChatMessage(windowed)
+      if (result.ok) {
+        const reply = result.text || FALLBACK_REPLY
+        setLines(prev => {
+          const next = [...prev]
+          next[next.length - 1] = { type: "chat", text: reply }
+          return next
+        })
+        setChatHistory(prevHistory => {
+          const next: ChatMessage[] = [...prevHistory]
+          next.push({ role: "user", content: userInput })
+          next.push({ role: "assistant", content: reply })
+          return next.slice(-16)
+        })
+      } else {
+        setLines(prev => {
+          const next = [...prev]
+          next[next.length - 1] = { type: "error", text: result.message }
+          return next
+        })
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       setLines(prev => {
@@ -178,7 +190,7 @@ export const Terminal: React.FC = () => {
     } finally {
       setChatLoading(false)
     }
-  }, [])
+  }, [chatHistory])
 
   const commit = (cmd: string) => {
     setCmdHistory(h => [cmd, ...h])

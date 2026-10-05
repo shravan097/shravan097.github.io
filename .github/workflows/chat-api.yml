@@ -1,0 +1,35 @@
+name: chat-api
+
+on:
+  push:
+    branches:
+      - master
+    # Only redeploy the Worker when its code (or this workflow) changes, so a
+    # blog post or site edit doesn't trigger a needless Cloudflare deploy.
+    # Remove the `paths:` block to deploy on every push to master instead.
+    paths:
+      - "workers/chat-api/**"
+      - ".github/workflows/chat-api.yml"
+
+# Serialize deploys so overlapping pushes queue instead of racing.
+concurrency:
+  group: chat-api-deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Test
+        working-directory: workers/chat-api
+        run: |
+          npm ci
+          npm test
+
+      - name: Build & Deploy Worker
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: workers/chat-api

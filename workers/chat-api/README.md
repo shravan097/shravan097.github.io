@@ -27,6 +27,10 @@ npm run deploy
 
 Note the Worker URL (e.g. `https://portfolio-chat-api.<account>.workers.dev`).
 
+### Automatic deploys
+
+Deploys are automatic — pushing to `master` redeploys the Worker via GitHub Actions (`.github/workflows/chat-api.yml`).
+
 ## Run server only (local)
 
 From repo root:

@@ -162,6 +162,38 @@ describe("portfolio chat API worker", () => {
     expect(headers.Authorization).toBe("Bearer test-key")
   })
 
+  it("forwards a multi-turn messages array to OpenRouter in order", async () => {
+    const response = await worker.fetch(
+      chatRequest(
+        {
+          messages: [
+            { role: "user", content: "what is your stack?" },
+            { role: "assistant", content: "Gatsby and a Cloudflare Worker." },
+            { role: "user", content: "and the AI part?" },
+          ],
+        },
+        { origin: ALLOWED_ORIGIN, ip: "2.2.2.2" }
+      ),
+      createEnv()
+    )
+
+    expect(response.status).toBe(200)
+
+    const openRouterFetch = vi.mocked(fetch)
+    expect(openRouterFetch).toHaveBeenCalledOnce()
+    const [, openRouterInit] = openRouterFetch.mock.calls[0]
+    const sent = JSON.parse(openRouterInit?.body as string) as {
+      messages: Array<{ role: string; content: string }>
+    }
+    // System prompt first, then the client turns in order.
+    expect(sent.messages[0].role).toBe("system")
+    expect(sent.messages.slice(1)).toEqual([
+      { role: "user", content: "what is your stack?" },
+      { role: "assistant", content: "Gatsby and a Cloudflare Worker." },
+      { role: "user", content: "and the AI part?" },
+    ])
+  })
+
   it("rate limits repeated requests from the same IP", async () => {
     const env = createEnv({}, 2)
 
